@@ -25,7 +25,6 @@ namespace CleanArchitecture.Application.Authors.Commands
         {
             var author = await _repository.GetByIdAsync(request.Id);
             author = Guard.Against.NotFound(author);
- 
             await UnitOfWork.CommitAsync();
         }
     }

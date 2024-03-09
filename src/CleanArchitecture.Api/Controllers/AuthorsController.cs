@@ -45,7 +45,7 @@ namespace CleanArchitecture.Api.Controllers
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _mediator.Send(new DeleteWeatherForecastCommand(id));
+            await _mediator.Send(new DeleteAuthorCommand(id));
             return NoContent();
         }
     }
