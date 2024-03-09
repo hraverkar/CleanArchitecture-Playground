@@ -22,6 +22,7 @@ namespace CleanArchitecture.Infrastructure
         public DbSet<WeatherForecast> WeatherForecasts { get; set; }
 
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Author> Authors { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

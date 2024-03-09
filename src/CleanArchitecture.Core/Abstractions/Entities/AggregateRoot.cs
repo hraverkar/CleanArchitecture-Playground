@@ -8,7 +8,6 @@ namespace CleanArchitecture.Core.Abstractions.Entities
         {
 
         }
-
         protected AggregateRoot(Guid id)
         {
             Id = id;
