@@ -1,0 +1,27 @@
+﻿using CleanArchitecture.Application.Abstractions.Commands;
+using CleanArchitecture.Application.Abstractions.Repositories;
+using CleanArchitecture.Core.Abstractions.Guards;
+using CleanArchitecture.Core.CarCompanies.Entities;
+
+namespace CleanArchitecture.Application.CarCompnies.Commands
+{
+    public sealed record DeleteCarCompanyCommad(Guid id) : Command;
+    public sealed class DeleteCarCompanyCommadHandler : CommandHandler<DeleteCarCompanyCommad>
+    {
+        public readonly IRepository<CarCompany> _repository;
+        public DeleteCarCompanyCommadHandler(IRepository<CarCompany> repository, IUnitOfWork unitOfWork) : base(unitOfWork)
+        {
+            _repository = repository;
+        }
+
+        protected async override Task HandleAsync(DeleteCarCompanyCommad request)
+        {
+
+
+            var carCompany = await _repository.GetByIdAsync(request.id);
+            carCompany = Guard.Against.NotFound(carCompany);
+            _repository.Delete(carCompany);
+            await UnitOfWork.CommitAsync();
+        }
+    }
+}

@@ -2,47 +2,51 @@
 using CleanArchitecture.Application.Authors.Commands;
 using CleanArchitecture.Application.Authors.Models;
 using CleanArchitecture.Application.Authors.Queries;
+using CleanArchitecture.Application.CarCompnies.Commands;
+using CleanArchitecture.Application.CarCompnies.Models;
+using CleanArchitecture.Application.CarCompnies.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
 {
+
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public sealed class AuthorsController : ControllerBase
+    public sealed class CarCompanyController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public AuthorsController(IMediator mediator)
+        public CarCompanyController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(typeof(List<AuthorDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(Guid Id)
-        {
-            var author = await _mediator.Send(new GetAuthorQuery(Id));
-            return Ok(author);
-        }
-
         [HttpGet()]
-        [ProducesResponseType(typeof(IQueryable<AuthorDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CarCompaniesDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var author = await _mediator.Send(new GetAllAuthorQuery());
-            return Ok(author);
+            var carCompany = await _mediator.Send(new GetCarCompanyQuery());
+            return Ok(carCompany);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Post([FromBody] AuthorCreateDto author)
+        public async Task<IActionResult> Post([FromBody] CreateCarCompaniesDto carCompaniesDto)
         {
-            var id = await _mediator.Send(new CreateAuthorCommand(author.Name, author.Email, author.Description));
+            var id = await _mediator.Send(new CreateCarCompanyCommand(carCompaniesDto.CarManufactureName));
             return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelope(id));
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(List<CarCompaniesDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var carCompany = await _mediator.Send(new GetCarCompanyByIdQuery(id));
+            return Ok(carCompany);
         }
 
         [HttpDelete("{id}")]

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using CleanArchitecture.Infrastructure.Configurations;
 using Microsoft.Extensions.Hosting;
+using CleanArchitecture.Core.CarCompanies.Entities;
 
 namespace CleanArchitecture.Infrastructure
 {
@@ -23,6 +24,7 @@ namespace CleanArchitecture.Infrastructure
 
         public DbSet<Location> Locations { get; set; }
         public DbSet<Author> Authors { get; set; }
+        public DbSet<CarCompany> CarCompanies { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
