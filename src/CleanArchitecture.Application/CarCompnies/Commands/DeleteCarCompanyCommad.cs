@@ -5,7 +5,7 @@ using CleanArchitecture.Core.CarCompanies.Entities;
 
 namespace CleanArchitecture.Application.CarCompnies.Commands
 {
-    public sealed record DeleteCarCompanyCommad(Guid id) : Command;
+    public sealed record DeleteCarCompanyCommad(Guid Id) : Command;
     public sealed class DeleteCarCompanyCommadHandler : CommandHandler<DeleteCarCompanyCommad>
     {
         public readonly IRepository<CarCompany> _repository;
@@ -16,9 +16,7 @@ namespace CleanArchitecture.Application.CarCompnies.Commands
 
         protected async override Task HandleAsync(DeleteCarCompanyCommad request)
         {
-
-
-            var carCompany = await _repository.GetByIdAsync(request.id);
+            var carCompany = await _repository.GetByIdAsync(request.Id);
             carCompany = Guard.Against.NotFound(carCompany);
             _repository.Delete(carCompany);
             await UnitOfWork.CommitAsync();

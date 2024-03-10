@@ -1,4 +1,7 @@
 ﻿using CleanArchitecture.Core.Abstractions.Entities;
+using CleanArchitecture.Core.Abstractions.Guards;
+using CleanArchitecture.Core.Locations.Entities;
+using CleanArchitecture.Core.Locations.ValueObjects;
 
 namespace CleanArchitecture.Core.CarCompanies.Entities
 {
@@ -15,6 +18,8 @@ namespace CleanArchitecture.Core.CarCompanies.Entities
         public string CarManufactureName { get; set; }
         public static CarCompany Create(string carManufactureName)
         {
+            carManufactureName = (carManufactureName ?? string.Empty).Trim();
+            Guard.Against.NullOrEmpty(carManufactureName, nameof(CarManufactureName));
             return new CarCompany(carManufactureName);
         }
     }

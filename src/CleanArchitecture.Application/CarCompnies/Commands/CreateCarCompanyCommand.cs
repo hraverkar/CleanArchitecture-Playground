@@ -1,12 +1,6 @@
 ﻿using CleanArchitecture.Application.Abstractions.Commands;
 using CleanArchitecture.Application.Abstractions.Repositories;
 using CleanArchitecture.Core.CarCompanies.Entities;
-using CleanArchitecture.Core.Locations.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.CarCompnies.Commands
 {

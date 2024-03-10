@@ -2,11 +2,12 @@
 using CleanArchitecture.Application.Abstractions.Queries;
 using CleanArchitecture.Application.Abstractions.Repositories;
 using CleanArchitecture.Application.CarCompnies.Models;
+using CleanArchitecture.Core.Abstractions.Guards;
 using CleanArchitecture.Core.CarCompanies.Entities;
 
 namespace CleanArchitecture.Application.CarCompnies.Queries
 {
-    public sealed record GetCarCompanyByIdQuery(Guid id) : Query<CarCompaniesDto>;
+    public sealed record GetCarCompanyByIdQuery(Guid Id) : Query<CarCompaniesDto>;
     public sealed class GetCarCompanyByIdQueryHandler : QueryHandler<GetCarCompanyByIdQuery, CarCompaniesDto>
     {
         private readonly IRepository<CarCompany> _repository;
@@ -18,7 +19,8 @@ namespace CleanArchitecture.Application.CarCompnies.Queries
 
         protected async override Task<CarCompaniesDto> HandleAsync(GetCarCompanyByIdQuery request)
         {
-            var carCompnies = _repository.GetByIdAsync(request.id);
+            var carCompnies = await _repository.GetByIdAsync(request.Id);
+            _ = Guard.Against.NotFound(carCompnies);
             return Mapper.Map<CarCompaniesDto>(carCompnies);
         }
     }

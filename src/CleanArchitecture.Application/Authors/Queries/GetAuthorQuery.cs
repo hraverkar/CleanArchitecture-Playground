@@ -16,10 +16,9 @@ namespace CleanArchitecture.Application.Authors.Queries
 
             _repository = repository;
         }
-
-        protected override async Task<AuthorDto> HandleAsync(GetAuthorQuery request)
+        protected async override Task<AuthorDto> HandleAsync(GetAuthorQuery request)
         {
-            var author = await _repository.GetByIdAsync(request.Id);
+            var author = _repository.GetByIdAsync(request.Id);
             Guard.Against.NotFound(author);
             return Mapper.Map<AuthorDto>(author);
         }

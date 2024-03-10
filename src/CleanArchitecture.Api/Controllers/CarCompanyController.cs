@@ -1,7 +1,5 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
 using CleanArchitecture.Application.Authors.Commands;
-using CleanArchitecture.Application.Authors.Models;
-using CleanArchitecture.Application.Authors.Queries;
 using CleanArchitecture.Application.CarCompnies.Commands;
 using CleanArchitecture.Application.CarCompnies.Models;
 using CleanArchitecture.Application.CarCompnies.Queries;
@@ -31,7 +29,7 @@ namespace CleanArchitecture.Api.Controllers
             return Ok(carCompany);
         }
 
-        [HttpPost]
+        [HttpPost()]
         [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
