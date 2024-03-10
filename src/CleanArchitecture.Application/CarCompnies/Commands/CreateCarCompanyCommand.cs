@@ -15,10 +15,15 @@ namespace CleanArchitecture.Application.CarCompnies.Commands
 
         protected async override Task<Guid> HandleAsync(CreateCarCompanyCommand request)
         {
-            var carCompanyManufacture = CarCompany.Create(request.CarManufactureCompany);
-            _repository.Insert(carCompanyManufacture);
-            await UnitOfWork.CommitAsync();
-            return carCompanyManufacture.Id;
+            var carAvailable = _repository.GetAll(false).Any(t => t.CarManufactureName.ToLower() == request.CarManufactureCompany.ToLower());
+            if (!carAvailable)
+            {
+                var carCompanyManufacture = CarCompany.Create(request.CarManufactureCompany);
+                _repository.Insert(carCompanyManufacture);
+                await UnitOfWork.CommitAsync();
+                return carCompanyManufacture.Id;
+            }
+            return Guid.Empty;
         }
     }
 }
