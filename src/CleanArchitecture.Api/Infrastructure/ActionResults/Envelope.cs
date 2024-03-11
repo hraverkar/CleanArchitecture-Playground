@@ -36,9 +36,9 @@ namespace CleanArchitecture.Api.Infrastructure.ActionResults
 
     public class CreatedResultEnvelope
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
-        public CreatedResultEnvelope(Guid id)
+        public CreatedResultEnvelope(string id)
         {
             Id = id;
         }

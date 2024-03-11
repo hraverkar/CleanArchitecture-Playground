@@ -4,11 +4,12 @@ using CleanArchitecture.Application.CarCompnies.Commands;
 using CleanArchitecture.Application.CarCompnies.Models;
 using CleanArchitecture.Application.CarCompnies.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
 {
-
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]

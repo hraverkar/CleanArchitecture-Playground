@@ -13,12 +13,12 @@ namespace CleanArchitecture.Application.Authors.Commands
             _repository = repository;
         }
 
-        protected override async Task<Guid> HandleAsync(CreateAuthorCommand request)
+        protected override async Task<string> HandleAsync(CreateAuthorCommand request)
         {
             var authorCreated = Author.Create(request.Name, request.Email, request.Description);
             _repository.Insert(authorCreated);
             await UnitOfWork.CommitAsync();
-            return authorCreated.Id;
+            return authorCreated.Id.ToString();
         }
     }
 }
