@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
+using CleanArchitecture.Application.Abstractions.Services;
 using CleanArchitecture.Application.Authors.Commands;
 using CleanArchitecture.Application.CarCompnies.Commands;
 using CleanArchitecture.Application.CarCompnies.Models;
@@ -16,10 +17,12 @@ namespace CleanArchitecture.Api.Controllers
     public sealed class CarCompanyController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IEmailNotificationService _emailNotificationService;
 
-        public CarCompanyController(IMediator mediator)
+        public CarCompanyController(IMediator mediator, IEmailNotificationService emailNotificationService)
         {
             _mediator = mediator;
+            _emailNotificationService = emailNotificationService;
         }
 
         [HttpGet()]
@@ -30,10 +33,11 @@ namespace CleanArchitecture.Api.Controllers
             return Ok(carCompany);
         }
 
-        [HttpPost()]
+        [HttpPost]
         [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Envelope), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Post([FromBody] CreateCarCompaniesDto carCompaniesDto)
         {
             var id = await _mediator.Send(new CreateCarCompanyCommand(carCompaniesDto.CarManufactureName));

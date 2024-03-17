@@ -9,5 +9,8 @@ namespace CleanArchitecture.Application.Login.Models
     public sealed class TokenDto
     {
         public string Token { get; set; }
+        public DateTime ExpireTime { get; set; }
+        public string UserName { get; set; }
+
     }
 }

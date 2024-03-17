@@ -45,6 +45,9 @@ namespace CleanArchitecture.Infrastructure.AutofacModules
             builder.RegisterType<NotificationsService>()
                 .AsImplementedInterfaces()
                 .SingleInstance();
+            builder.RegisterType<EmailNotificationService>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
         }
 
         private static DbContextOptions<WeatherContext> CreateDbOptions(IConfiguration configuration)

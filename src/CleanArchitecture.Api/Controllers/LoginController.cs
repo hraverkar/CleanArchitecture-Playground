@@ -9,14 +9,9 @@ namespace CleanArchitecture.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public sealed class LoginController : ControllerBase
+    public sealed class LoginController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public LoginController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        private readonly IMediator _mediator = mediator;
 
         [HttpPost()]
         [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
@@ -24,8 +19,8 @@ namespace CleanArchitecture.Api.Controllers
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Post([FromBody] LoginDto loginDto)
         {
-            var id = await _mediator.Send(new CreateLoginCommand(loginDto.UserName, loginDto.Password));
-            return Ok(id);
+            var tokenDto = await _mediator.Send(new CreateLoginCommand(loginDto));
+            return Ok(tokenDto);
         }
 
     }
