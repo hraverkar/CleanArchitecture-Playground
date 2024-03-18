@@ -11,5 +11,14 @@ namespace CleanArchitecture.Core.Abstractions.Guards
             }
             return aggregate!;
         }
+
+        public static T Found<T>(this IGuardClause guardClause, T? aggregate, string? message = null) where T : class
+        {
+            if (aggregate != null)
+            {
+                NotFound(message ?? "found");
+            }
+            return aggregate!;
+        }
     }
 }

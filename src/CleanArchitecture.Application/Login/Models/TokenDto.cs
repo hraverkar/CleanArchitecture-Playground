@@ -10,7 +10,7 @@ namespace CleanArchitecture.Application.Login.Models
     {
         public string Token { get; set; }
         public DateTime ExpireTime { get; set; }
-        public string UserName { get; set; }
+        public string Email { get; set; }
 
     }
 }

@@ -25,6 +25,7 @@ namespace CleanArchitecture.Infrastructure
         public DbSet<Location> Locations { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<CarCompany> CarCompanies { get; set; }
+        public DbSet<RegisterUser> RegisterUsers { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
