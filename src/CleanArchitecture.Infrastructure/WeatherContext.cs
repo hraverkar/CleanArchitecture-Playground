@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using CleanArchitecture.Infrastructure.Configurations;
 using Microsoft.Extensions.Hosting;
 using CleanArchitecture.Core.CarCompanies.Entities;
+using CleanArchitecture.Core.Task.Entities;
 
 namespace CleanArchitecture.Infrastructure
 {
@@ -26,6 +27,7 @@ namespace CleanArchitecture.Infrastructure
         public DbSet<Author> Authors { get; set; }
         public DbSet<CarCompany> CarCompanies { get; set; }
         public DbSet<RegisterUser> RegisterUsers { get; set; }
+        public DbSet<TaskDetails> TaskDetails { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

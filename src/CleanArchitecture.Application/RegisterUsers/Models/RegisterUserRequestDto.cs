@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.RegisterUsers.Models
 {
-    public class RegisterUserRequestDto
+    public sealed class RegisterUserRequestDto
     {
         public string Email { get; set; }
         public string Password { get; set; }
