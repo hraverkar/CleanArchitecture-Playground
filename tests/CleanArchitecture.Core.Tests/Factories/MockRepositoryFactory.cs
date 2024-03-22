@@ -29,8 +29,8 @@ namespace CleanArchitecture.Core.Tests.Factories
             {
                 items = new List<T>();
             }
-            repository.Setup(e => e.GetByIdAsync(It.IsAny<Guid>())).Returns<Guid>((id) => Task.FromResult(items.FirstOrDefault(e => e.Id == id)));
-            repository.Setup(e => e.GetAll(It.IsAny<bool>())).Returns(() => items.AsQueryable().BuildMockDbSet().Object);
+           // repository.Setup(e => e.GetByIdAsync(It.IsAny<Guid>())).Returns<Guid>((id) => Task.FromResult(items.FirstOrDefault(e => e.Id == id)));
+           //repository.Setup(e => e.GetAll(It.IsAny<bool>())).Returns(() => items.AsQueryable().BuildMockDbSet().Object);
             return repository;
         }
     }

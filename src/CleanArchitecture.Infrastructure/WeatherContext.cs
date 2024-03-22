@@ -7,6 +7,8 @@ using CleanArchitecture.Infrastructure.Configurations;
 using Microsoft.Extensions.Hosting;
 using CleanArchitecture.Core.CarCompanies.Entities;
 using CleanArchitecture.Core.Task.Entities;
+using CleanArchitecture.Core.Task_Details.Task_Status_Entities;
+using TaskStatus = CleanArchitecture.Core.Task_Details.Task_Status_Entities.TaskStatus;
 
 namespace CleanArchitecture.Infrastructure
 {
@@ -28,6 +30,7 @@ namespace CleanArchitecture.Infrastructure
         public DbSet<CarCompany> CarCompanies { get; set; }
         public DbSet<RegisterUser> RegisterUsers { get; set; }
         public DbSet<TaskDetails> TaskDetails { get; set; }
+        public DbSet<TaskStatus> TaskStatus { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

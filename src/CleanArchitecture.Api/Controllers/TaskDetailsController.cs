@@ -45,9 +45,9 @@ namespace CleanArchitecture.Api.Controllers
 
         [HttpGet("GetTask/{TaskStatus}/{TaskAssignTo}/{TaskCreatedBy}")]
         [ProducesResponseType(typeof(List<TaskDetailsDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetFilterTask()
+        public async Task<IActionResult> GetFilterTask(string TaskStatus, string TaskAssignTo, string TaskCreatedBy)
         {
-            var taskDetail = await _mediator.Send(new GetAllTaskQuery());
+            var taskDetail = await _mediator.Send(new GetTaskByFilterQuery(TaskStatus, TaskAssignTo, TaskCreatedBy));
             return Ok(taskDetail);
         }
     }

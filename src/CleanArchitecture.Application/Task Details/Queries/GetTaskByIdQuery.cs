@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Abstractions.Queries;
 using CleanArchitecture.Application.Abstractions.Repositories;
-using CleanArchitecture.Application.Authors.Models;
-using CleanArchitecture.Application.Authors.Queries;
 using CleanArchitecture.Application.Task_Details.Models;
 using CleanArchitecture.Core.Abstractions.Guards;
-using CleanArchitecture.Core.Locations.Entities;
 using CleanArchitecture.Core.Task.Entities;
 
 namespace CleanArchitecture.Application.Task_Details.Queries
