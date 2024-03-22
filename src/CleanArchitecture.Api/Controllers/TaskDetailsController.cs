@@ -37,16 +37,22 @@ namespace CleanArchitecture.Api.Controllers
         [ProducesResponseType(typeof(List<TaskDetailsDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var taskDetail = await _mediator.Send(new GetAllTaskQuery());
-            return Ok(taskDetail);
+            var taskDetails = await _mediator.Send(new GetAllTaskQuery());
+            return Ok(taskDetails);
         }
 
         [HttpGet("GetTask/{TaskStatus}/{TaskAssignTo}/{TaskCreatedBy}")]
         [ProducesResponseType(typeof(List<TaskDetailsDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetFilterTask(Guid TaskStatus, string TaskAssignTo, string TaskCreatedBy)
         {
-            var taskDetail = await _mediator.Send(new GetTaskByFilterQuery(TaskStatus, TaskAssignTo, TaskCreatedBy));
-            return Ok(taskDetail);
+            var taskDetails = await _mediator.Send(new GetTaskByFilterQuery(TaskStatus, TaskAssignTo, TaskCreatedBy));
+            return Ok(taskDetails);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            await _mediator.Send(new Get)
         }
     }
 }

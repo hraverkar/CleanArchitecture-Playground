@@ -20,8 +20,4 @@
 		<ProjectReference Include="..\CleanArchitecture.Core\CleanArchitecture.Core.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="NewFolder\" />
-	</ItemGroup>
-
 </Project>
