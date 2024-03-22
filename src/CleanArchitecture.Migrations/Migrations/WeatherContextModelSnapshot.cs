@@ -102,15 +102,16 @@ namespace CleanArchitecture.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TaskStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("TaskStatusId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TaskTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TaskStatusId");
 
                     b.ToTable("TaskDetails");
                 });
@@ -211,6 +212,17 @@ namespace CleanArchitecture.Migrations.Migrations
 
                     b.Navigation("Coordinates")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Core.Task.Entities.TaskDetails", b =>
+                {
+                    b.HasOne("CleanArchitecture.Core.Task_Details.Task_Status_Entities.TaskStatus", "TaskStatus")
+                        .WithMany()
+                        .HasForeignKey("TaskStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TaskStatus");
                 });
 
             modelBuilder.Entity("CleanArchitecture.Core.Weather.Entities.WeatherForecast", b =>

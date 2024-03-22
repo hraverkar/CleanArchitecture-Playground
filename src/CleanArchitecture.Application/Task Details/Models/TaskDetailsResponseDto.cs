@@ -12,7 +12,8 @@ namespace CleanArchitecture.Application.Task_Details.Models
         public string TaskTitle { get; set; }
         public string TaskDetail { get; set; }
         public string TaskAssignTo { get; set; }
-        public string TaskStatus { get; set; }
+        public Guid TaskStatusId { get; set; }
+        public string TaskStatusName { get; set; }
         public DateTime TaskCreatedAt { get; set; }
         public string TaskCreatedBy { get; set; }
         public bool IsDeleted { get; set; }

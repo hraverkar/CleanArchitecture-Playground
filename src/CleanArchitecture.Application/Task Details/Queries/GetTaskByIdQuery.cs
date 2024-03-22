@@ -4,6 +4,7 @@ using CleanArchitecture.Application.Abstractions.Repositories;
 using CleanArchitecture.Application.Task_Details.Models;
 using CleanArchitecture.Core.Abstractions.Guards;
 using CleanArchitecture.Core.Task.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Application.Task_Details.Queries
 {
@@ -20,10 +21,10 @@ namespace CleanArchitecture.Application.Task_Details.Queries
         protected async override Task<TaskDetailsResponseDto> HandleAsync(GetTaskByIdQuery request)
         {
             ArgumentNullException.ThrowIfNull(request);
-            var taskDetails = _taskDetailsRepository.GetAll(false).FirstOrDefault(t => t.Id == request.Id);
+            var taskDetails = _taskDetailsRepository
+            .GetAll(false).Include(a => a.TaskStatus).FirstOrDefault(t => t.Id == request.Id);
             if (taskDetails != null)
             {
-
                 Guard.Against.NotFound(taskDetails);
                 return (Mapper.Map<TaskDetailsResponseDto>(taskDetails));
             }

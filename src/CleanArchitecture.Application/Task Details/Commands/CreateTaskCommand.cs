@@ -18,7 +18,7 @@ namespace CleanArchitecture.Application.Task_Details.Commands
         {
             var createTask = TaskDetails.Create(request.TaskDetailsRequestDto.TaskTitle,
                 request.TaskDetailsRequestDto.TaskDetail, request.TaskDetailsRequestDto.TaskAssignTo,
-                request.TaskDetailsRequestDto.TaskStatus, request.TaskDetailsRequestDto.TaskCreatedAt,
+                request.TaskDetailsRequestDto.TaskStatusId, request.TaskDetailsRequestDto.TaskCreatedAt,
                 request.TaskDetailsRequestDto.TaskCreatedBy, false);
             _taskDetailsRepository.Insert(createTask);
             await UnitOfWork.CommitAsync();
