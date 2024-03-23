@@ -2,6 +2,7 @@
 using CleanArchitecture.Application.Task_Details.Commands;
 using CleanArchitecture.Application.Task_Details.Models;
 using CleanArchitecture.Application.Task_Details.Queries;
+using CleanArchitecture.Application.Task_Status.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,12 +48,6 @@ namespace CleanArchitecture.Api.Controllers
         {
             var taskDetails = await _mediator.Send(new GetTaskByFilterQuery(TaskStatus, TaskAssignTo, TaskCreatedBy));
             return Ok(taskDetails);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid Id)
-        {
-            await _mediator.Send(new Get)
         }
     }
 }

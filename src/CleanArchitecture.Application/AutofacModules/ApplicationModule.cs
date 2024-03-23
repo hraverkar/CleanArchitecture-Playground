@@ -2,6 +2,8 @@
 using Autofac;
 using AutoMapper;
 using System.Reflection;
+using CleanArchitecture.Application.Email_Notification.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace CleanArchitecture.Application.AutofacModules
 {
@@ -35,6 +37,9 @@ namespace CleanArchitecture.Application.AutofacModules
                 return mapperConfig.CreateMapper(ctx.Resolve);
             }).As<IMapper>()
               .SingleInstance();
+
+            // Registering MailSettings
+            
         }
     }
 }

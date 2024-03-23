@@ -1,14 +1,17 @@
 using Autofac;
+using Autofac.Core;
 using CleanArchitecture.Api.Infrastructure.Filters;
 using CleanArchitecture.Application.AutofacModules;
+using CleanArchitecture.Application.Email_Notification.Models;
 using CleanArchitecture.Infrastructure.AutofacModules;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using static CSharpFunctionalExtensions.Result;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,6 +71,10 @@ builder.Services.AddSwaggerGen(options =>
     });
     options.DescribeAllParametersInCamelCase();
 });
+builder.Services
+            .Configure<MailSettings>(configuration)
+            .AddSingleton(sp => sp.GetRequiredService<IOptions<MailSettings>>().Value);
+
 builder.Services.AddCors();
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy("Application is running"))

@@ -1,25 +1,53 @@
 ﻿using CleanArchitecture.Application.Abstractions.Services;
-using CleanArchitecture.Core.Abstractions.Services;
+using CleanArchitecture.Application.Email_Notification.Models;
+using MailKit.Security;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using MimeKit;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace CleanArchitecture.Infrastructure.Services
 {
     public sealed class EmailNotificationService : IEmailNotificationService
     {
         private readonly ILogger<EmailNotificationService> _logger;
-        public EmailNotificationService(ILogger<EmailNotificationService> logger)
+        private readonly MailSettings _mailSettings;
+        public EmailNotificationService(ILogger<EmailNotificationService> logger, IOptions<MailSettings> mailSettings)
         {
             _logger = logger;
+            _mailSettings = mailSettings.Value;
         }
-        public Task EmailNotificationAlertAsync(string userEmail, string userName, string subject)
+        public async Task<bool> EmailNotificationAlertAsync(EmailNotificationRequestDto emailNotificationRequestDto)
         {
-            return Task.CompletedTask;
-        }
+            try
+            {
+                var mail = new MimeMessage
+                {
+                    From = { new MailboxAddress(_mailSettings.DisplayName, _mailSettings.From) },
+                    Sender = new MailboxAddress(_mailSettings.DisplayName, _mailSettings.From),
+                    To = { new MailboxAddress(emailNotificationRequestDto.ToEmailUserName, emailNotificationRequestDto.ToEmailAddress) },
+                    Subject = emailNotificationRequestDto.Subject
+                };
 
+                var body = new BodyBuilder { HtmlBody = emailNotificationRequestDto.Body };
+                mail.Body = body.ToMessageBody();
+
+                using var smtpClient = new SmtpClient();
+
+                var secureSocketOptions = _mailSettings.UseSSL
+                    ? SecureSocketOptions.SslOnConnect
+                    : (_mailSettings.UseStartTls ? SecureSocketOptions.StartTls : SecureSocketOptions.Auto);
+
+                await smtpClient.ConnectAsync(_mailSettings.Host, _mailSettings.Port, secureSocketOptions);
+                await smtpClient.AuthenticateAsync(_mailSettings.UserName, _mailSettings.Password);
+                await smtpClient.SendAsync(mail);
+                await smtpClient.DisconnectAsync(true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
