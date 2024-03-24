@@ -19,7 +19,7 @@ namespace CleanArchitecture.Application.Projects.Commands
         {
             var projectExists = await _repository.GetByIdAsync(request.Id);
             projectExists = Guard.Against.NotFound(projectExists);
-            _repository.Delete(projectExists);
+            _repository.SoftDelete(projectExists);
             await UnitOfWork.CommitAsync();
             return "Record Deleted Successfully !!";
         }

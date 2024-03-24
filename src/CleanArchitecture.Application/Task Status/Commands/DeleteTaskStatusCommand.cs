@@ -21,7 +21,7 @@ namespace CleanArchitecture.Application.Task_Status.Queries
         {
             var taskStatus = await _repository.GetByIdAsync(request.Id);
             taskStatus = Guard.Against.NotFound(taskStatus);
-            _repository.Delete(taskStatus);
+            _repository.SoftDelete(taskStatus);
             await UnitOfWork.CommitAsync();
             return "Record Deleted Successfully !!";
 

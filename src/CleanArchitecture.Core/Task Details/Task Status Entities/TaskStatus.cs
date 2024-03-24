@@ -12,14 +12,12 @@ namespace CleanArchitecture.Core.Task_Details.Task_Status_Entities
         public string StatusName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public bool IsDeleted { get; set; } = false;
 
-        private TaskStatus(string statusName, string createdBy, DateTime createdAt, bool isDeleted)
+        private TaskStatus(string statusName, string createdBy, DateTime createdAt)
         {
             StatusName = statusName;
             CreatedBy = createdBy;
             CreatedAt = createdAt;
-            IsDeleted = isDeleted;
         }
 
 #pragma warning disable CS8618 // this is needed for the ORM for serializing Value Objects
@@ -29,14 +27,14 @@ namespace CleanArchitecture.Core.Task_Details.Task_Status_Entities
 
         }
 
-        public static TaskStatus Create(string statusName, string createdBy, DateTime createdAt, bool isDeleted)
+        public static TaskStatus Create(string statusName, string createdBy, DateTime createdAt)
         {
 
             statusName = (statusName ?? string.Empty).Trim();
             Guard.Against.NullOrEmpty(statusName, nameof(StatusName));
             createdBy = (createdBy ?? string.Empty).Trim();
             Guard.Against.NullOrEmpty(createdBy, nameof(CreatedBy));
-            return new TaskStatus(statusName, createdBy, createdAt, isDeleted);
+            return new TaskStatus(statusName, createdBy, createdAt);
         }
 
         public void IsDeletedFlag(bool isDelete)

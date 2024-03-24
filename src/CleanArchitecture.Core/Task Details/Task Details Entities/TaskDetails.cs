@@ -16,9 +16,8 @@ namespace CleanArchitecture.Core.Task.Entities
         public Project Project { get; set; }
         public DateTime TaskCreatedAt { get; set; } = DateTime.Now;
         public string TaskCreatedBy { get; set; }
-        public bool IsDeleted { get; set; } = false;
 
-        private TaskDetails(string taskTitle, string taskDetail, string taskAssignTo, Guid taskStatusId, DateTime taskCreatedAt, string taskCreatedBy, bool isDeleted, Guid projectId)
+        private TaskDetails(string taskTitle, string taskDetail, string taskAssignTo, Guid taskStatusId, DateTime taskCreatedAt, string taskCreatedBy, Guid projectId)
         {
             TaskTitle = taskTitle;
             TaskDetail = taskDetail;
@@ -26,7 +25,6 @@ namespace CleanArchitecture.Core.Task.Entities
             TaskStatusId = taskStatusId;
             TaskCreatedAt = taskCreatedAt;
             TaskCreatedBy = taskCreatedBy;
-            IsDeleted = isDeleted;
             ProjectId = projectId;
         }
 
@@ -49,7 +47,7 @@ namespace CleanArchitecture.Core.Task.Entities
             taskCreatedBy = (taskCreatedBy ?? string.Empty).Trim();
             Guard.Against.NullOrEmpty(taskCreatedBy, nameof(TaskCreatedBy));
 
-            return new TaskDetails(taskTitle, taskDetail, taskAssignTo, taskStatusId, taskCreatedAt, taskCreatedBy, isDeleted, projectId);
+            return new TaskDetails(taskTitle, taskDetail, taskAssignTo, taskStatusId, taskCreatedAt, taskCreatedBy, projectId);
         }
 
         public void IsDeletedFlag(bool isDelete)

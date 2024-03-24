@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanArchitecture.Migrations.Migrations
 {
     [DbContext(typeof(WeatherContext))]
-    [Migration("20240323081156_createNotificationTable")]
-    partial class createNotificationTable
+    [Migration("20240324123322_InitialMigrationAdded")]
+    partial class InitialMigrationAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,9 @@ namespace CleanArchitecture.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("CarCompanies");
@@ -45,7 +48,6 @@ namespace CleanArchitecture.Migrations.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Attachment")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Body")
@@ -62,6 +64,9 @@ namespace CleanArchitecture.Migrations.Migrations
                     b.Property<string>("FromEmailUserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsSuccessed")
                         .HasColumnType("bit");
@@ -121,9 +126,47 @@ namespace CleanArchitecture.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(64)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Core.Projects.Entities.Project", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ProjectDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("CleanArchitecture.Core.Task.Entities.TaskDetails", b =>
@@ -133,6 +176,9 @@ namespace CleanArchitecture.Migrations.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TaskAssignTo")
                         .IsRequired()
@@ -157,6 +203,8 @@ namespace CleanArchitecture.Migrations.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("TaskStatusId");
 
@@ -220,6 +268,9 @@ namespace CleanArchitecture.Migrations.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("LocationId")
                         .HasColumnType("uniqueidentifier");
 
@@ -263,11 +314,19 @@ namespace CleanArchitecture.Migrations.Migrations
 
             modelBuilder.Entity("CleanArchitecture.Core.Task.Entities.TaskDetails", b =>
                 {
+                    b.HasOne("CleanArchitecture.Core.Projects.Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CleanArchitecture.Core.Task_Details.Task_Status_Entities.TaskStatus", "TaskStatus")
                         .WithMany()
                         .HasForeignKey("TaskStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Project");
 
                     b.Navigation("TaskStatus");
                 });

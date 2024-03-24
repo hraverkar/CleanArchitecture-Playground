@@ -1,7 +1,5 @@
 ﻿using CleanArchitecture.Core.Abstractions.Entities;
 using CleanArchitecture.Core.Abstractions.Guards;
-using CleanArchitecture.Core.Locations.Entities;
-using CleanArchitecture.Core.Locations.ValueObjects;
 
 namespace CleanArchitecture.Core.CarCompanies.Entities
 {

@@ -50,5 +50,9 @@ namespace CleanArchitecture.Infrastructure.Repositories
         {
             _entitySet.RemoveRange(entitiesToRemove);
         }
+        void IRepository<T>.SoftDelete(T entity)
+        {
+            entity.IsDeleted = true;
+        }
     }
 }

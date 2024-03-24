@@ -37,6 +37,5 @@ namespace CleanArchitecture.Core.Weather.Entities
         public string Email { get; private set; }
         public string Password { get; private set; }
         public string UserName { get; private set; }
-        public bool IsDeleted { get; private set; } = false;
     }
 }

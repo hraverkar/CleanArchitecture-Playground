@@ -23,7 +23,6 @@ namespace CleanArchitecture.Application.Projects.Commands
                 var projectCreate = Project.Create(
                     request.ProjectRequestDto.ProjectName,
                     request.ProjectRequestDto.ProjectDescription,
-                    request.ProjectRequestDto.IsDeleted,
                     request.ProjectRequestDto.CreatedAt,
                     request.ProjectRequestDto.CreatedBy
                     );

@@ -28,7 +28,6 @@ namespace CleanArchitecture.Core.Locations.Entities
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string Description { get; private set; }
-        public bool IsDeleted { get; private set; } = false;
 
         public void MarkAsDeleted(bool isDelete)
         {

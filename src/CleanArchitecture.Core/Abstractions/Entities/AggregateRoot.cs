@@ -4,6 +4,7 @@ namespace CleanArchitecture.Core.Abstractions.Entities
 {
     public abstract class AggregateRoot : EntityBase
     {
+        public bool IsDeleted { get; set; }
         protected AggregateRoot() : this(Guid.NewGuid())
         {
 
@@ -11,6 +12,7 @@ namespace CleanArchitecture.Core.Abstractions.Entities
         protected AggregateRoot(Guid id)
         {
             Id = id;
+            IsDeleted = false;
         }
 
         private readonly List<DomainEvent> _domainEvents = new List<DomainEvent>();

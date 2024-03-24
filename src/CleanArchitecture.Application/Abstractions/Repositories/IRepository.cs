@@ -11,5 +11,6 @@ namespace CleanArchitecture.Application.Abstractions.Repositories
         void Insert(List<T> entities);
         void Delete(T entity);
         void Remove(IEnumerable<T> entitiesToRemove);
+        void SoftDelete(T entity);
     }
 }

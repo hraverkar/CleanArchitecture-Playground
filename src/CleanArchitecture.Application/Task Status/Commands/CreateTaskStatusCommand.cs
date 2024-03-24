@@ -26,7 +26,7 @@ namespace CleanArchitecture.Application.Task_Status.Commands
         protected override async Task<string> HandleAsync(CreateTaskStatusCommand request)
         {
             var createTask = TaskStatus.Create(request.TaskStatusRequestDto.StatusName, request.TaskStatusRequestDto.CreatedBy,
-                request.TaskStatusRequestDto.CreatedAt, request.TaskStatusRequestDto.IsDeleted);
+                request.TaskStatusRequestDto.CreatedAt);
             _taskStatusRepository.Insert(createTask);
             await UnitOfWork.CommitAsync();
             return createTask.Id.ToString();
