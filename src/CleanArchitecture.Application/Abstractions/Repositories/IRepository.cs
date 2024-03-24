@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Core.Abstractions.Entities;
+using CleanArchitecture.Core.Projects.Entities;
 
 namespace CleanArchitecture.Application.Abstractions.Repositories
 {
@@ -10,5 +11,6 @@ namespace CleanArchitecture.Application.Abstractions.Repositories
         void Insert(List<T> entities);
         void Delete(T entity);
         void Remove(IEnumerable<T> entitiesToRemove);
+        void Delete(Task<Project?> projectExists);
     }
 }

@@ -10,6 +10,7 @@ using CleanArchitecture.Core.Task.Entities;
 using CleanArchitecture.Core.Task_Details.Task_Status_Entities;
 using TaskStatus = CleanArchitecture.Core.Task_Details.Task_Status_Entities.TaskStatus;
 using CleanArchitecture.Core.Email_Notification.Entities;
+using CleanArchitecture.Core.Projects.Entities;
 
 namespace CleanArchitecture.Infrastructure
 {
@@ -33,6 +34,7 @@ namespace CleanArchitecture.Infrastructure
         public DbSet<TaskDetails> TaskDetails { get; set; }
         public DbSet<TaskStatus> TaskStatus { get; set; }
         public DbSet<EmailNotification> EmailNotifications { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

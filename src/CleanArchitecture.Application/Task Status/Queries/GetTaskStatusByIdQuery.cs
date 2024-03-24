@@ -20,7 +20,7 @@ namespace CleanArchitecture.Application.Task_Status.Queries
         protected async override Task<TaskStatusResponseDto> HandleAsync(GetTaskStatusByIdQuery request)
         {
             ArgumentNullException.ThrowIfNull(request);
-            var taskStatus = _repository.GetAll(false).FirstOrDefault(t => t.Id == request.Id);
+            var taskStatus = _repository.GetByIdAsync(request.Id);
             if (taskStatus != null)
             {
                 Guard.Against.NotFound(taskStatus);
