@@ -1,22 +1,20 @@
 ﻿using CleanArchitecture.Application.Abstractions.Services;
 using CleanArchitecture.Application.Email_Notification.Models;
 using MailKit.Security;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using static CSharpFunctionalExtensions.Result;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace CleanArchitecture.Infrastructure.Services
 {
-    public sealed class EmailNotificationService : IEmailNotificationService
+    public sealed class EmailNotificationService(ILogger<EmailNotificationService> logger, IConfiguration configuration) : IEmailNotificationService
     {
-        private readonly ILogger<EmailNotificationService> _logger;
-        private readonly MailSettings _mailSettings;
-        public EmailNotificationService(ILogger<EmailNotificationService> logger, IOptions<MailSettings> mailSettings)
-        {
-            _logger = logger;
-            _mailSettings = mailSettings.Value;
-        }
+        private readonly ILogger<EmailNotificationService> _logger = logger;
+        private readonly MailSettings _mailSettings = configuration?.GetSection("MailSettings").Get<MailSettings>();
+
         public async Task<bool> EmailNotificationAlertAsync(EmailNotificationRequestDto emailNotificationRequestDto)
         {
             try

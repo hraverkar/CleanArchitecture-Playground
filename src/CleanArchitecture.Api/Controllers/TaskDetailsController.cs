@@ -2,7 +2,6 @@
 using CleanArchitecture.Application.Task_Details.Commands;
 using CleanArchitecture.Application.Task_Details.Models;
 using CleanArchitecture.Application.Task_Details.Queries;
-using CleanArchitecture.Application.Task_Status.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

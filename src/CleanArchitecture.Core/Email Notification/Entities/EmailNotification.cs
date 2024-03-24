@@ -10,7 +10,7 @@ namespace CleanArchitecture.Core.Email_Notification.Entities
         public string FromEmailAddress { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public string Attachment { get; set; }
+        public string? Attachment { get; set; }
         public bool IsSuccessed { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
@@ -22,7 +22,7 @@ namespace CleanArchitecture.Core.Email_Notification.Entities
             FromEmailAddress = fromEmailAddress;
             Subject = subject;
             Body = body;
-            ToEmailAddress = toEmailUserName;
+            ToEmailUserName = toEmailUserName;
             IsSuccessed = isSuccessed;
             CreatedAt = createdAt;
         }

@@ -1,6 +1,6 @@
-using MediatR;
-using CleanArchitecture.Application.Locations.Queries;
 using CleanArchitecture.Application.Locations.Models;
+using CleanArchitecture.Application.Locations.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers

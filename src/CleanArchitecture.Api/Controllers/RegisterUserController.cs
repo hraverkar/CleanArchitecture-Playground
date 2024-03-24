@@ -1,7 +1,5 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
 using CleanArchitecture.Application.Authors.Commands;
-using CleanArchitecture.Application.Login.Commands;
-using CleanArchitecture.Application.Login.Models;
 using CleanArchitecture.Application.RegisterUsers.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

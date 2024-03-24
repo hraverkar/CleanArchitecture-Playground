@@ -1,12 +1,8 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
-using CleanArchitecture.Application.Task_Details.Commands;
-using CleanArchitecture.Application.Task_Details.Models;
-using CleanArchitecture.Application.Task_Details.Queries;
 using CleanArchitecture.Application.Task_Status.Commands;
 using CleanArchitecture.Application.Task_Status.Model;
 using CleanArchitecture.Application.Task_Status.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers

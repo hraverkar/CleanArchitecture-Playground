@@ -1,10 +1,7 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
 using CleanArchitecture.Application.Email_Notification.Commands;
 using CleanArchitecture.Application.Email_Notification.Models;
-using CleanArchitecture.Application.Task_Details.Commands;
-using CleanArchitecture.Application.Task_Details.Models;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
