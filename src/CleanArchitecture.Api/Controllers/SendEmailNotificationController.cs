@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
 using CleanArchitecture.Application.Email_Notification.Commands;
 using CleanArchitecture.Application.Email_Notification.Models;
+using CleanArchitecture.Application.Task_Status.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +26,8 @@ namespace CleanArchitecture.Api.Controllers
                 return Problem("Email Notification is null.");
             }
 
-            var id = await _mediator.Send(new EmailNotificationCommand(emailNotification));
-            return Ok(new { Value = id });
-
+            var value = await _mediator.Send(new EmailNotificationCommand(emailNotification));
+            return Ok(new ResponseMessage { Message = value });
         }
 
         //[HttpPost("bulk-sendEmail")]

@@ -47,7 +47,7 @@ namespace CleanArchitecture.Api.Controllers
         public async Task<IActionResult> Delete(Guid Id)
         {
             var message = await _mediator.Send(new DeleteTaskStatusCommand(Id));
-            return Ok(message);
+            return Ok(new ResponseMessage { Message = message });
         }
     }
 }
