@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Core.Abstractions.Entities;
 using CleanArchitecture.Application.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
+using CleanArchitecture.Core.Projects.Entities;
 
 namespace CleanArchitecture.Infrastructure.Repositories
 {

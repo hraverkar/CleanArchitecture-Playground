@@ -19,9 +19,9 @@ namespace CleanArchitecture.Application.Task_Status.Queries
 
         protected async override Task<string> HandleAsync(DeleteTaskStatusCommand request)
         {
-            var taskStatus = _repository.GetByIdAsync(request.Id);
-            _ = Guard.Against.NotFound(taskStatus);
-            _repository.Delete(await taskStatus);
+            var taskStatus = await _repository.GetByIdAsync(request.Id);
+            taskStatus = Guard.Against.NotFound(taskStatus);
+            _repository.Delete(taskStatus);
             await UnitOfWork.CommitAsync();
             return "Record Deleted Successfully !!";
 

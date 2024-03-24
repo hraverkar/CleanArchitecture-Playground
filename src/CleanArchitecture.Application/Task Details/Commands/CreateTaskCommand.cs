@@ -19,7 +19,7 @@ namespace CleanArchitecture.Application.Task_Details.Commands
             var createTask = TaskDetails.Create(request.TaskDetailsRequestDto.TaskTitle,
                 request.TaskDetailsRequestDto.TaskDetail, request.TaskDetailsRequestDto.TaskAssignTo,
                 request.TaskDetailsRequestDto.TaskStatusId, request.TaskDetailsRequestDto.TaskCreatedAt,
-                request.TaskDetailsRequestDto.TaskCreatedBy, false);
+                request.TaskDetailsRequestDto.TaskCreatedBy, false, request.TaskDetailsRequestDto.ProjectId);
             _taskDetailsRepository.Insert(createTask);
             await UnitOfWork.CommitAsync();
             return createTask.Id.ToString();

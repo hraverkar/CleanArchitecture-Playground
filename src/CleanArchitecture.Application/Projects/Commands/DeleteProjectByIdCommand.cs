@@ -17,8 +17,8 @@ namespace CleanArchitecture.Application.Projects.Commands
         }
         protected async override Task<string> HandleAsync(DeleteProjectByIdCommand request)
         {
-            var projectExists = _repository.GetByIdAsync(request.Id);
-            _ = Guard.Against.NotFound(projectExists);
+            var projectExists = await _repository.GetByIdAsync(request.Id);
+            projectExists = Guard.Against.NotFound(projectExists);
             _repository.Delete(projectExists);
             await UnitOfWork.CommitAsync();
             return "Record Deleted Successfully !!";
