@@ -11,7 +11,6 @@ namespace CleanArchitecture.Application.Projects.Models
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public string CreatedBy { get; set; }
     }
 }

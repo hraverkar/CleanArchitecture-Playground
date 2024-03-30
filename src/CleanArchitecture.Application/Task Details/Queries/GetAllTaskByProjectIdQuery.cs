@@ -21,7 +21,9 @@ namespace CleanArchitecture.Application.Task_Details.Queries
         {
             ArgumentNullException.ThrowIfNull(request);
             var taskDetails = _taskDetailsRepository
-            .GetAll(false).Where(i => i.ProjectId == request.Id && !i.IsDeleted).Include(a => a.TaskStatus).Include(a => a.Project);
+                .GetAll(false)
+            .Where(i => i.ProjectId == request.Id).Include(a => a.Project).Include(a => a.TaskStatus)
+            .ToList();
                 Guard.Against.NotFound(taskDetails);
                 if (taskDetails != null)
                 {

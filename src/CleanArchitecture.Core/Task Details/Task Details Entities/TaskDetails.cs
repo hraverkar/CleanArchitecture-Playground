@@ -59,17 +59,8 @@ namespace CleanArchitecture.Core.Task.Entities
             return new TaskDetails(taskTitle, taskDetail, taskAssignTo, taskStatusId, taskCreatedAt, taskCreatedBy, projectId);
         }
 
-        public void Update(string taskTitle, string taskDetail, string taskAssignTo, Guid taskStatusId, string taskCreatedBy)
+        public void Update(string? taskTitle, string? taskDetail, string? taskAssignTo, Guid taskStatusId, string? taskCreatedBy)
         {
-
-            taskTitle = (taskTitle ?? string.Empty).Trim();
-            Guard.Against.NullOrEmpty(taskTitle, nameof(TaskTitle));
-            taskDetail = (taskDetail ?? string.Empty).Trim();
-            Guard.Against.NullOrEmpty(taskDetail, nameof(TaskDetail));
-            taskAssignTo = (taskAssignTo ?? string.Empty).Trim();
-            Guard.Against.NullOrEmpty(taskAssignTo, nameof(TaskAssignTo));
-            taskCreatedBy = (taskCreatedBy ?? string.Empty).Trim();
-            Guard.Against.NullOrEmpty(taskCreatedBy, nameof(TaskCreatedBy));
 
             TaskTitle = taskTitle;
             TaskDetail = taskDetail;

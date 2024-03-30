@@ -25,7 +25,8 @@ namespace CleanArchitecture.Application.Projects.Queries
         protected async override Task<ProjectResponseListDto> HandleAsync(GetAllProjectQuery request)
         {
             ArgumentNullException.ThrowIfNull(request);
-            var allProjects = _repository.GetAll(false).Where(a => !a.IsDeleted);
+            var allProjects = _repository.GetAll(false).Where(a => !a.IsDeleted).OrderByDescending(a => a.CreatedAt);
+
             if (allProjects != null)
             {
                 Guard.Against.NotFound(allProjects);

@@ -19,7 +19,7 @@ namespace CleanArchitecture.Application.Task_Status.Queries
         protected async override Task<List<TaskStatusResponseDto>> HandleAsync(GetAllTaskStatusQuery request)
         {
             ArgumentNullException.ThrowIfNull(request);
-            var taskStatus = _repository.GetAll(false);
+            var taskStatus = _repository.GetAll(false).Where(a => !a.IsDeleted);
             if (taskStatus != null)
             {
                 Guard.Against.NotFound(taskStatus);

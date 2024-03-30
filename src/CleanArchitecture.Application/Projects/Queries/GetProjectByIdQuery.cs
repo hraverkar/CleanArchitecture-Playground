@@ -2,14 +2,8 @@
 using CleanArchitecture.Application.Abstractions.Queries;
 using CleanArchitecture.Application.Abstractions.Repositories;
 using CleanArchitecture.Application.Projects.Models;
-using CleanArchitecture.Application.Task_Details.Models;
 using CleanArchitecture.Core.Abstractions.Guards;
 using CleanArchitecture.Core.Projects.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.Projects.Queries
 {
@@ -25,7 +19,7 @@ namespace CleanArchitecture.Application.Projects.Queries
         protected async override Task<ProjectResponseDto> HandleAsync(GetProjectByIdQuery request)
         {
             ArgumentNullException.ThrowIfNull(request);
-            var projectDetails = _repository.GetAll(false).FirstOrDefault(a => a.Id == request.Id);
+            var projectDetails = _repository.GetAll(false).FirstOrDefault(i => i.Id == request.Id && !i.IsDeleted);
             if (projectDetails != null)
             {
                 projectDetails = Guard.Against.NotFound(projectDetails);

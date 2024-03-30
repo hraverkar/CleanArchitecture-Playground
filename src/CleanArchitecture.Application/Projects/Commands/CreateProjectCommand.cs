@@ -24,7 +24,7 @@ namespace CleanArchitecture.Application.Projects.Commands
                 var projectCreate = Project.Create(
                     request.ProjectRequestDto.ProjectName,
                     request.ProjectRequestDto.ProjectDescription,
-                    request.ProjectRequestDto.CreatedAt,
+                    DateTime.Now,
                     request.ProjectRequestDto.CreatedBy
                     );
                 _repository.Insert(projectCreate);
