@@ -33,8 +33,16 @@ namespace CleanArchitecture.Api.Controllers
             return Ok(taskDetail);
         }
 
+        [HttpGet("project/{id}")]
+        [ProducesResponseType(typeof(TaskDetailsDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetTaskDetailsByProjectId(Guid Id)
+        {
+            var taskDetail = await _mediator.Send(new GetAllTaskByProjectIdQuery(Id));
+            return Ok(taskDetail);
+        }
+
         [HttpGet()]
-        [ProducesResponseType(typeof(List<TaskDetailsDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TaskDetailsDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var taskDetails = await _mediator.Send(new GetAllTaskQuery());
@@ -48,5 +56,14 @@ namespace CleanArchitecture.Api.Controllers
             var taskDetails = await _mediator.Send(new GetTaskByFilterQuery(TaskStatus, TaskAssignTo, TaskCreatedBy));
             return Ok(taskDetails);
         }
+
+        [HttpPatch()]
+        [ProducesResponseType(typeof(TaskDetailsResponseDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateTaskDetailsById(UpdateTaskDetailsRequestDto updateTaskDetailsRequestDto)
+        {
+            var taskDetail = await _mediator.Send(new UpdateTaskDetailsCommand(updateTaskDetailsRequestDto));
+            return Ok(taskDetail);
+        }
+
     }
 }

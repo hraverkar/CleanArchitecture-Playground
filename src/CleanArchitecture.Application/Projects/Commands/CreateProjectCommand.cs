@@ -17,6 +17,7 @@ namespace CleanArchitecture.Application.Projects.Commands
         }
         protected override async Task<string> HandleAsync(CreateProjectCommand request)
         {
+            ArgumentNullException.ThrowIfNull(request);
             var projectExists = _repository.GetAll(false).Where(r => r.ProjectName.ToLower() == request.ProjectRequestDto.ProjectName.ToLower());
             if (!projectExists.Any())
             {

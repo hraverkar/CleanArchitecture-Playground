@@ -54,5 +54,10 @@ namespace CleanArchitecture.Infrastructure.Repositories
         {
             entity.IsDeleted = true;
         }
+        public void Update(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            _entitySet.Update(entity);
+        }
     }
 }

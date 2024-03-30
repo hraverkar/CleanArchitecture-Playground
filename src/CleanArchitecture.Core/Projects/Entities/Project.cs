@@ -8,22 +8,12 @@ namespace CleanArchitecture.Core.Projects.Entities
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public string CreatedBy { get; set; }
-        public string UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private Project() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-        public Project(string projectName, string projectDescription, DateTime createdAt, DateTime updatedAt, string createdBy, string updatedBy)
-        {
-            ProjectName = projectName;
-            ProjectDescription = projectDescription;
-            CreatedAt = createdAt;
-            UpdatedAt = updatedAt;
-            CreatedBy = createdBy;
-            UpdatedBy = updatedBy;
-        }
 
         public Project(string projectName, string projectDescription, DateTime createdAt, string createdBy)
         { 
@@ -42,10 +32,18 @@ namespace CleanArchitecture.Core.Projects.Entities
             return new Project(projectName, projectDescription, createdAt, createdBy);
         }
 
-        public void IsDeletedFlag(bool isDelete)
+        public void Update(string projectName, string projectDescription, DateTime updatedAt, string updatedBy)
         {
-            IsDeleted = isDelete;
-        }
+            projectName = (projectName ?? string.Empty).Trim();
+            Guard.Against.NullOrEmpty(projectName, nameof(projectName));
+            projectDescription = (projectDescription ?? string.Empty).Trim();
+            Guard.Against.NullOrEmpty(projectDescription, nameof(projectDescription));
 
+            // Update properties
+            ProjectName = projectName;
+            ProjectDescription = projectDescription;
+            UpdatedAt = updatedAt;
+            UpdatedBy = updatedBy;
+        }
     }
 }

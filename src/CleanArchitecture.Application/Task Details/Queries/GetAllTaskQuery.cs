@@ -20,7 +20,7 @@ namespace CleanArchitecture.Application.Task_Details.Queries
             ArgumentNullException.ThrowIfNull(request);
             var taskDetails = _taskDetailsRepository
             .GetAll(false)
-            .Include(a => a.TaskStatus);
+            .Include(a => a.TaskStatus).Include(a =>a.Project);
             if (taskDetails != null)
             {
                 var taskDetailsResponseDtos = Mapper.Map<List<TaskDetailsResponseDto>>(taskDetails);

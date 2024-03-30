@@ -17,7 +17,7 @@ namespace CleanArchitecture.Core.Task.Entities
         public DateTime TaskCreatedAt { get; set; } = DateTime.Now;
         public string TaskCreatedBy { get; set; }
 
-        private TaskDetails(string taskTitle, string taskDetail, string taskAssignTo, Guid taskStatusId, DateTime taskCreatedAt, string taskCreatedBy, Guid projectId)
+        public TaskDetails(string taskTitle, string taskDetail, string taskAssignTo, Guid taskStatusId, DateTime taskCreatedAt, string taskCreatedBy, Guid projectId)
         {
             TaskTitle = taskTitle;
             TaskDetail = taskDetail;
@@ -26,6 +26,15 @@ namespace CleanArchitecture.Core.Task.Entities
             TaskCreatedAt = taskCreatedAt;
             TaskCreatedBy = taskCreatedBy;
             ProjectId = projectId;
+        }
+
+        public TaskDetails(string taskTitle, string taskDetail, string taskAssignTo, Guid taskStatusId, string taskCreatedBy)
+        {
+            TaskTitle = taskTitle;
+            TaskDetail = taskDetail;
+            TaskAssignTo = taskAssignTo;
+            TaskStatusId = taskStatusId;
+            TaskCreatedBy = taskCreatedBy;
         }
 
 #pragma warning disable CS8618 // this is needed for the ORM for serializing Value Objects
@@ -50,9 +59,23 @@ namespace CleanArchitecture.Core.Task.Entities
             return new TaskDetails(taskTitle, taskDetail, taskAssignTo, taskStatusId, taskCreatedAt, taskCreatedBy, projectId);
         }
 
-        public void IsDeletedFlag(bool isDelete)
+        public void Update(string taskTitle, string taskDetail, string taskAssignTo, Guid taskStatusId, string taskCreatedBy)
         {
-            IsDeleted = isDelete;
+
+            taskTitle = (taskTitle ?? string.Empty).Trim();
+            Guard.Against.NullOrEmpty(taskTitle, nameof(TaskTitle));
+            taskDetail = (taskDetail ?? string.Empty).Trim();
+            Guard.Against.NullOrEmpty(taskDetail, nameof(TaskDetail));
+            taskAssignTo = (taskAssignTo ?? string.Empty).Trim();
+            Guard.Against.NullOrEmpty(taskAssignTo, nameof(TaskAssignTo));
+            taskCreatedBy = (taskCreatedBy ?? string.Empty).Trim();
+            Guard.Against.NullOrEmpty(taskCreatedBy, nameof(TaskCreatedBy));
+
+            TaskTitle = taskTitle;
+            TaskDetail = taskDetail;
+            TaskAssignTo = taskAssignTo;
+            TaskStatusId = taskStatusId;
+            TaskCreatedBy = taskCreatedBy;
         }
     }
 }

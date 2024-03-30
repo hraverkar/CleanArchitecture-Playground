@@ -21,7 +21,7 @@ namespace CleanArchitecture.Application.Weather.Commands
         {
             var forecast = await _repository.GetByIdAsync(request.Id);
             forecast = Guard.Against.NotFound(forecast);
-            _repository.Delete(forecast);
+            _repository.SoftDelete(forecast);
             await UnitOfWork.CommitAsync();
         }
     }

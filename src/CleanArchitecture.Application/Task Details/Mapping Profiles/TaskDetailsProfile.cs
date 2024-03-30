@@ -22,11 +22,14 @@ namespace CleanArchitecture.Application.Task_Details.Mapping_Profiles
                     .ForMember(dest => dest.TaskTitle, e => e.MapFrom(src => src.TaskTitle))
                     .ForMember(dest => dest.TaskDetail, e => e.MapFrom(src => src.TaskDetail))
                     .ForMember(dest => dest.TaskStatusId, e => e.MapFrom(src => src.TaskStatus.Id))
-                    .ForMember(dest => dest.TaskStatusName, e => e.MapFrom(src => src.TaskStatus.StatusName))
+                    .ForMember(dest => dest.TaskStatus, e => e.MapFrom(src => src.TaskStatus))
                     .ForMember(dest => dest.TaskAssignTo, e => e.MapFrom(src => src.TaskAssignTo))
                     .ForMember(dest => dest.TaskCreatedAt, e => e.MapFrom(src => src.TaskCreatedAt))
                     .ForMember(dest => dest.TaskCreatedBy, e => e.MapFrom(src => src.TaskCreatedBy))
-                    .ForMember(dest => dest.IsDeleted, e => e.MapFrom(src => src.IsDeleted));
+                    .ForMember(dest => dest.IsDeleted, e => e.MapFrom(src => src.IsDeleted))
+                       .ForMember(dest => dest.ProjectId, e => e.MapFrom(src => src.ProjectId))
+                          .ForMember(dest => dest.Project, e => e.MapFrom(src => src.Project));
+
         }
     }
 }

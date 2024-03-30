@@ -19,7 +19,7 @@ namespace CleanArchitecture.Application.Task_Details.Queries
         {
             ArgumentNullException.ThrowIfNull(request);
             var query = _taskDetailsRepository.GetAll(false)
-            .Include(a => a.TaskStatus) // Include the related TaskStatus
+            .Include(a => a.TaskStatus).Include(a => a.Project) // Include the related TaskStatus
             .Where(a =>
             (request.TaskStatus == Guid.Empty || a.TaskStatusId == request.TaskStatus) &&
             (request.TaskAssignTo == null || a.TaskAssignTo == request.TaskAssignTo) &&

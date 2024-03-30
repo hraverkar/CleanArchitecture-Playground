@@ -22,7 +22,7 @@ namespace CleanArchitecture.Application.Task_Details.Queries
         {
             ArgumentNullException.ThrowIfNull(request);
             var taskDetails = _taskDetailsRepository
-            .GetAll(false).Include(a => a.TaskStatus).FirstOrDefault(t => t.Id == request.Id);
+            .GetAll(false).Include(a => a.TaskStatus).Include(a => a.Project).FirstOrDefault(t => t.Id == request.Id);
             if (taskDetails != null)
             {
                 Guard.Against.NotFound(taskDetails);

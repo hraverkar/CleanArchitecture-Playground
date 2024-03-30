@@ -18,7 +18,7 @@ namespace CleanArchitecture.Application.CarCompnies.Commands
         {
             var carCompany = await _repository.GetByIdAsync(request.Id);
             carCompany = Guard.Against.NotFound(carCompany);
-            _repository.Delete(carCompany);
+            _repository.SoftDelete(carCompany);
             await UnitOfWork.CommitAsync();
         }
     }

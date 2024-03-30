@@ -25,10 +25,10 @@ namespace CleanArchitecture.Application.Projects.Queries
         protected async override Task<ProjectResponseDto> HandleAsync(GetProjectByIdQuery request)
         {
             ArgumentNullException.ThrowIfNull(request);
-            var projectDetails = _repository.GetByIdAsync(request.Id);
+            var projectDetails = _repository.GetAll(false).FirstOrDefault(a => a.Id == request.Id);
             if (projectDetails != null)
             {
-                Guard.Against.NotFound(projectDetails);
+                projectDetails = Guard.Against.NotFound(projectDetails);
                 return Mapper.Map<ProjectResponseDto>(projectDetails);
 
             }

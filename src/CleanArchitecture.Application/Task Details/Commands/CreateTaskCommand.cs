@@ -16,6 +16,7 @@ namespace CleanArchitecture.Application.Task_Details.Commands
         }
         protected override async Task<string> HandleAsync(CreateTaskCommand request)
         {
+            ArgumentNullException.ThrowIfNull(request);
             var createTask = TaskDetails.Create(request.TaskDetailsRequestDto.TaskTitle,
                 request.TaskDetailsRequestDto.TaskDetail, request.TaskDetailsRequestDto.TaskAssignTo,
                 request.TaskDetailsRequestDto.TaskStatusId, request.TaskDetailsRequestDto.TaskCreatedAt,
