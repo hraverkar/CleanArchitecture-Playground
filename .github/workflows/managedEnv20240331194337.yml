@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+    - main
+env:
+  DOTNET_CORE_VERSION: 7.0.x
+  CONTAINER_APP_ENVIRONMENT_NAME: managedEnv20240331194337
+  RESOURCE_GROUP: Kanban-board-project-rg
+  CONTAINER_REGISTRY_NAME: registry20240331194710
+  CONTAINER_REGISTRY_LOGIN_SERVER: registry20240331194710.azurecr.io
+jobs:
+  BuildAndDeployContainerApp:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+        - appsourcepath: src/CleanArchitecture.Api
+          containerappname: cleanarchitecture.api-container-app
+        - appsourcepath: src/MyNotification
+          containerappname: mynotification-container-app
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v4
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.managedEnv20240331194337_SPN }}
+    - name: Container App deploy
+      uses: azure/container-apps-deploy-action@v1
+      with:
+        appSourcePath: ${{ github.workspace }}/${{ matrix.appsourcepath }}
+        acrName: ${{ env.CONTAINER_REGISTRY_NAME }}
+        acrUsername: ${{ secrets.registry20240331194710_USERNAME_F6CC }}
+        acrPassword: ${{ secrets.registry20240331194710_PASSWORD_F6CC }}
+        imageToBuild: ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ matrix.containerappname }}:${{ github.sha }}
+        containerAppName: ${{ matrix.containerappname }}
+        containerAppEnvironment: ${{ env.CONTAINER_APP_ENVIRONMENT_NAME }}
+        resourceGroup: ${{ env.RESOURCE_GROUP }}
