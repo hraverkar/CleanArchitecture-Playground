@@ -1,18 +1,15 @@
-﻿using AutoMapper;
-using CleanArchitecture.Application.Abstractions.Commands;
-using CleanArchitecture.Application.Abstractions.Queries;
+﻿using CleanArchitecture.Application.Abstractions.Commands;
 using CleanArchitecture.Application.Abstractions.Repositories;
 using CleanArchitecture.Core.Abstractions.Guards;
-using MediatR;
-using TaskStatus = CleanArchitecture.Core.Task_Details.Task_Status_Entities.TaskStatus;
+using CleanArchitecture.Core.Task.Entities;
 
-namespace CleanArchitecture.Application.Task_Status.Queries
+namespace CleanArchitecture.Application.Task_Details.Commands
 {
     public sealed record DeleteTaskDetailsCommand(Guid Id) : CreateCommand;
-    public sealed class DeleteTaskStatusCommandHandler : CreateCommandHandler<DeleteTaskDetailsCommand>
+    public sealed class DeleteTaskDetailsCommandHandler : CreateCommandHandler<DeleteTaskDetailsCommand>
     {
-        private readonly IRepository<TaskStatus> _repository;
-        public DeleteTaskStatusCommandHandler(IRepository<TaskStatus> repository, IUnitOfWork unitOfWork) : base(unitOfWork)
+        private readonly IRepository<TaskDetails> _repository;
+        public DeleteTaskDetailsCommandHandler(IRepository<TaskDetails> repository, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _repository = repository;
         }

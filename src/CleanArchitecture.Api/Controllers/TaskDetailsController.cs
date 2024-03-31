@@ -2,6 +2,7 @@
 using CleanArchitecture.Application.Task_Details.Commands;
 using CleanArchitecture.Application.Task_Details.Models;
 using CleanArchitecture.Application.Task_Details.Queries;
+using CleanArchitecture.Application.Task_Status.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +64,14 @@ namespace CleanArchitecture.Api.Controllers
         {
             var taskDetail = await _mediator.Send(new UpdateTaskDetailsCommand(updateTaskDetailsRequestDto));
             return Ok(taskDetail);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            var message = await _mediator.Send(new DeleteTaskDetailsCommand(Id));
+            return Ok(new ResponseMessage { Message = message });
         }
 
     }
