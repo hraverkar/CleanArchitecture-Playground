@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.RegisterDefaults();
 var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
 var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
+var KeyVaultURL = builder.Configuration.GetSection("KeyVault:VaultUri").Get<string>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
 {
