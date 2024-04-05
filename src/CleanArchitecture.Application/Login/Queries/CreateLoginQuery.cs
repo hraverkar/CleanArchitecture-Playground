@@ -31,11 +31,11 @@ namespace CleanArchitecture.Application.Login.Commands
 
         protected async override Task<TokenDto> HandleAsync(CreateLoginQuery request)
         {
-            var userRecord = _registerUserRepository.GetAll(false).Where(a => a.Email == request.Email).ToList();
+            var userRecord = _registerUserRepository.GetAll(false).SingleOrDefault(a => a.Email == request.Email);
 
-            if (userRecord.Count  == 0 || !BCrypt.Net.BCrypt.Verify(request.Password, userRecord?.FirstOrDefault()?.Password))
+            if (userRecord == null || !BCrypt.Net.BCrypt.Verify(request.Password, userRecord?.Password))
             {
-                return new TokenDto { Token = null, ExpireTime = DateTime.Now, Email = null };
+                return new TokenDto { Token = null, ExpireTime = DateTime.Now, Email = null, UserName = null };
             }
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -48,7 +48,7 @@ namespace CleanArchitecture.Application.Login.Commands
                 expires: expiryDate,
                 signingCredentials: credentials);
 
-            var tokenDto = new TokenDto { Token = new JwtSecurityTokenHandler().WriteToken(token), ExpireTime = expiryDate, Email = request.Email };
+            var tokenDto = new TokenDto { Token = new JwtSecurityTokenHandler().WriteToken(token), ExpireTime = expiryDate, Email = userRecord.Email, UserName = userRecord.UserName };
             return tokenDto;
         }
     }

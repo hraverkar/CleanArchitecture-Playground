@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
 using CleanArchitecture.Application.Login.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
@@ -8,6 +9,7 @@ namespace CleanArchitecture.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [AllowAnonymous]
     public sealed class LoginController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
