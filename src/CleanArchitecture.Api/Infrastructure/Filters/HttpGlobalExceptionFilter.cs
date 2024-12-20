@@ -2,6 +2,7 @@
 using CleanArchitecture.Api.Infrastructure.ActionResults;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
+using Microsoft.AspNetCore.Authentication;
 
 namespace CleanArchitecture.Api.Infrastructure.Filters
 {
@@ -28,6 +29,10 @@ namespace CleanArchitecture.Api.Infrastructure.Filters
                 envelope = Envelope.Create(context.Exception.Message, HttpStatusCode.BadRequest);
             }
             else if (context.Exception.GetType() == typeof(UnauthorizedAccessException))
+            {
+                envelope = Envelope.Create("Unauthorized access", HttpStatusCode.Unauthorized);
+            }
+            else if (context.Exception.GetType() == typeof(AccessDeniedContext))
             {
                 envelope = Envelope.Create("Access denied", HttpStatusCode.Forbidden);
             }

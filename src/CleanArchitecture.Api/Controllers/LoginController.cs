@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
 using CleanArchitecture.Application.Login.Command;
-using CleanArchitecture.Application.Login.Commands;
 using CleanArchitecture.Application.Login.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -15,15 +14,6 @@ namespace CleanArchitecture.Api.Controllers
     public sealed class LoginController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
-
-        [HttpGet("{email}/{password}")]
-        [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(string email, string password)
-        {
-            var tokenDto = await _mediator.Send(new CreateLoginQuery(email, password));
-            return Ok(tokenDto);
-        }
 
         [HttpPost()]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]

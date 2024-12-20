@@ -5,6 +5,7 @@ using CleanArchitecture.Core.Weather.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace CleanArchitecture.Application.Login.Command
@@ -19,6 +20,8 @@ namespace CleanArchitecture.Application.Login.Command
             _repository = repository;
             _configuration = configuration;
         }
+
+
         protected async override Task<TokenDto> HandleAsync(LoginCommand request, CancellationToken cancellationToken)
         {
             var userRecord = _repository.GetAll(false).SingleOrDefault(a => a.Email == request.LoginDto.Email);
@@ -29,15 +32,21 @@ namespace CleanArchitecture.Application.Login.Command
             }
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var expiryDate = DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpireMinutes"]));
+            var expiryDate = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpireMinutes"]));
             var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Issuer"],
-                null,
-                expires: expiryDate,
-                signingCredentials: credentials);
-
-            var tokenDto = new TokenDto { Token = new JwtSecurityTokenHandler().WriteToken(token), ExpireTime = expiryDate, Email = userRecord.Email, UserName = userRecord.UserName };
+                        issuer: _configuration["Jwt:Issuer"],
+                        audience: _configuration["Jwt:Audience"],
+                      claims: new List<Claim>
+                        {
+                            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(), ClaimValueTypes.DateTime),
+                            new Claim(JwtRegisteredClaimNames.Sub, userRecord.UserName),
+                            new Claim(JwtRegisteredClaimNames.Email, userRecord.Email),
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                        },
+                        notBefore: DateTime.UtcNow,
+                        expires: expiryDate,
+                        signingCredentials: credentials);
+            var tokenDto = new TokenDto { AccessToken = new JwtSecurityTokenHandler().WriteToken(token), ExpireTime = expiryDate, Email = userRecord.Email, UserName = userRecord.UserName };
             return tokenDto;
         }
     }

@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Application.Abstractions.Commands;
+﻿using Azure.Core;
+using CleanArchitecture.Application.Abstractions.Commands;
 using CleanArchitecture.Application.Abstractions.Repositories;
 using CleanArchitecture.Application.Projects.Models;
 using CleanArchitecture.Core.Abstractions.Guards;
@@ -17,9 +18,10 @@ namespace CleanArchitecture.Application.Projects.Commands
         }
         protected override async Task<Guid> HandleAsync(CreateProjectCommand request)
         {
-            ArgumentNullException.ThrowIfNull(request);
-            var projectExists = _repository.GetAll(false).Where(r => r.ProjectName.Equals(request.ProjectRequestDto.ProjectName, StringComparison.CurrentCultureIgnoreCase));
-            if (!projectExists.Any())
+            ArgumentNullException.ThrowIfNull(request, nameof(request));
+            ArgumentNullException.ThrowIfNull(request.ProjectRequestDto, nameof(request.ProjectRequestDto));
+            var projectExists = _repository.GetAll(false).FirstOrDefault(r => r.ProjectName == request.ProjectRequestDto.ProjectName);
+            if (projectExists == null)
             {
                 var projectCreate = Project.Create(
                     request.ProjectRequestDto.ProjectName,
@@ -31,9 +33,11 @@ namespace CleanArchitecture.Application.Projects.Commands
                 await UnitOfWork.CommitAsync();
                 return projectCreate.Id;
             }
-            projectExists = Guard.Against.Found(projectExists, $"Project Already found, Please Provide unique name");
-            return Guid.Empty;
-
+            else
+            {
+                throw new InvalidOperationException($"Project '{request.ProjectRequestDto.ProjectName}' already exists. Please provide a unique name.");
+            }
         }
     }
 }
+

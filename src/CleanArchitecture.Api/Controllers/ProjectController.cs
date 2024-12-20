@@ -7,12 +7,14 @@ using CleanArchitecture.Application.Task_Details.Queries;
 using CleanArchitecture.Application.Task_Status.Commands;
 using CleanArchitecture.Application.Task_Status.Model;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
