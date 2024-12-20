@@ -28,7 +28,7 @@ namespace CleanArchitecture.Api.Controllers
         public async Task<IActionResult> Post([FromBody] ProjectRequestDto projectRequestDto)
         {
             var id = await _mediator.Send(new CreateProjectCommand(projectRequestDto));
-            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelope(id));
+            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelopeGuid(id));
         }
 
         [HttpGet("{id}")]

@@ -6,12 +6,12 @@ using CleanArchitecture.Core.Task.Entities;
 
 namespace CleanArchitecture.Application.Task_Details.Commands
 {
-    public sealed record UpdateTaskDetailsCommand(UpdateTaskDetailsRequestDto UpdateTaskDetailsRequestDto) : CreateCommand;
-    public sealed class UpdateTaskDetailsCommandHandler(IRepository<TaskDetails> repository, IUnitOfWork unitOfWork) : CreateCommandHandler<UpdateTaskDetailsCommand>(unitOfWork)
+    public sealed record UpdateTaskDetailsCommand(UpdateTaskDetailsRequestDto UpdateTaskDetailsRequestDto) : CommandBase<string>;
+    public sealed class UpdateTaskDetailsCommandHandler(IRepository<TaskDetails> repository, IUnitOfWork unitOfWork) : CommandHandler<UpdateTaskDetailsCommand, string>(unitOfWork)
     {
         private readonly IRepository<TaskDetails> _repository = repository;
 
-        protected async override Task<string> HandleAsync(UpdateTaskDetailsCommand request)
+        protected async override Task<string> HandleAsync(UpdateTaskDetailsCommand request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
             var taskDetailsExists = await _repository.GetByIdAsync(request.UpdateTaskDetailsRequestDto.Id);

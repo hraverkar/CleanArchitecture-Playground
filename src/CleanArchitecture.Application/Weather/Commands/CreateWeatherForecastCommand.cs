@@ -22,7 +22,7 @@ namespace CleanArchitecture.Application.Weather.Commands
             _locationsRepository = locationsRepository;
         }
 
-        protected override async Task<string> HandleAsync(CreateWeatherForecastCommand request)
+        protected override async Task<Guid> HandleAsync(CreateWeatherForecastCommand request)
         {
             var location = await _locationsRepository.GetByIdAsync(request.LocationId);
             location = Guard.Against.NotFound(location, $"Location not found: {request.LocationId}");
@@ -33,7 +33,7 @@ namespace CleanArchitecture.Application.Weather.Commands
                                                  location.Id);
             _repository.Insert(created);
             await UnitOfWork.CommitAsync();
-            return created.Id.ToString();
+            return created.Id;
         }
     }
 }

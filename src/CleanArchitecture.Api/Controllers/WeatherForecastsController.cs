@@ -43,7 +43,7 @@ namespace CleanArchitecture.Api.Controllers
         public async Task<IActionResult> Post([FromBody] WeatherForecastCreateDto forecast)
         {
             var id = await _mediator.Send(new CreateWeatherForecastCommand(forecast.TemperatureC, forecast.Date, forecast.Summary, forecast.LocationId));
-            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelope(id));
+            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelopeGuid(id));
         }
 
         [HttpPut("{id}")]

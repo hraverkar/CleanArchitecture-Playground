@@ -43,4 +43,13 @@ namespace CleanArchitecture.Api.Infrastructure.ActionResults
             Id = id;
         }
     }
+
+    public class CreatedResultEnvelopeGuid
+    {
+        public Guid Id { get; set; }
+        public CreatedResultEnvelopeGuid(Guid id)
+        {
+            Id = id;
+        }
+    }
 }

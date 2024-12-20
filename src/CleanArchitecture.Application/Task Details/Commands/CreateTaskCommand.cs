@@ -14,7 +14,7 @@ namespace CleanArchitecture.Application.Task_Details.Commands
         {
             _taskDetailsRepository = taskDetailsRepository;
         }
-        protected override async Task<string> HandleAsync(CreateTaskCommand request)
+        protected override async Task<Guid> HandleAsync(CreateTaskCommand request)
         {
             ArgumentNullException.ThrowIfNull(request);
             var createTask = TaskDetails.Create(request.TaskDetailsRequestDto.TaskTitle,
@@ -23,7 +23,7 @@ namespace CleanArchitecture.Application.Task_Details.Commands
                 request.TaskDetailsRequestDto.TaskCreatedBy, false, request.TaskDetailsRequestDto.ProjectId);
             _taskDetailsRepository.Insert(createTask);
             await UnitOfWork.CommitAsync();
-            return createTask.Id.ToString();
+            return createTask.Id;
         }
     }
 }

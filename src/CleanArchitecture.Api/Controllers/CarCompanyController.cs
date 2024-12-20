@@ -41,7 +41,7 @@ namespace CleanArchitecture.Api.Controllers
         public async Task<IActionResult> Post([FromBody] CreateCarCompaniesDto carCompaniesDto)
         {
             var id = await _mediator.Send(new CreateCarCompanyCommand(carCompaniesDto.CarManufactureName));
-            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelope(id));
+            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelopeGuid(id));
         }
 
         [HttpGet("{id}")]

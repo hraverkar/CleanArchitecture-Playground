@@ -6,8 +6,8 @@ using CleanArchitecture.Core.Projects.Entities;
 
 namespace CleanArchitecture.Application.Projects.Commands
 {
-    public sealed record DeleteProjectByIdCommand(Guid Id) : CreateCommand;
-    public sealed class DeleteProjectByIdCommandHandler : CreateCommandHandler<DeleteProjectByIdCommand>
+    public sealed record DeleteProjectByIdCommand(Guid Id) : CommandBase<string>;
+    public sealed class DeleteProjectByIdCommandHandler : CommandHandler<DeleteProjectByIdCommand, string>
     {
         private readonly IRepository<Project> _repository;
 
@@ -15,7 +15,7 @@ namespace CleanArchitecture.Application.Projects.Commands
         {
             _repository = repository;
         }
-        protected async override Task<string> HandleAsync(DeleteProjectByIdCommand request)
+        protected async override Task<string> HandleAsync(DeleteProjectByIdCommand request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
             var projectExists = await _repository.GetByIdAsync(request.Id);

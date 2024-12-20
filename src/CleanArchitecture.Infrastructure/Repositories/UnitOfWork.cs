@@ -84,5 +84,10 @@ namespace CleanArchitecture.Infrastructure.Repositories
         {
             _context.Dispose();
         }
+
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : AggregateRoot
+        {
+            return new Repository<TEntity>(_context);
+        }
     }
 }

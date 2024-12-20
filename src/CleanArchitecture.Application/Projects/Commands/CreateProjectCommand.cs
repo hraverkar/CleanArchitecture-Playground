@@ -15,10 +15,10 @@ namespace CleanArchitecture.Application.Projects.Commands
         {
             _repository = repository;
         }
-        protected override async Task<string> HandleAsync(CreateProjectCommand request)
+        protected override async Task<Guid> HandleAsync(CreateProjectCommand request)
         {
             ArgumentNullException.ThrowIfNull(request);
-            var projectExists = _repository.GetAll(false).Where(r => r.ProjectName.ToLower() == request.ProjectRequestDto.ProjectName.ToLower());
+            var projectExists = _repository.GetAll(false).Where(r => r.ProjectName.Equals(request.ProjectRequestDto.ProjectName, StringComparison.CurrentCultureIgnoreCase));
             if (!projectExists.Any())
             {
                 var projectCreate = Project.Create(
@@ -29,10 +29,10 @@ namespace CleanArchitecture.Application.Projects.Commands
                     );
                 _repository.Insert(projectCreate);
                 await UnitOfWork.CommitAsync();
-                return projectCreate.Id.ToString();
+                return projectCreate.Id;
             }
             projectExists = Guard.Against.Found(projectExists, $"Project Already found, Please Provide unique name");
-            return Guid.Empty.ToString();
+            return Guid.Empty;
 
         }
     }

@@ -5,8 +5,8 @@ using CleanArchitecture.Core.Task.Entities;
 
 namespace CleanArchitecture.Application.Task_Details.Commands
 {
-    public sealed record DeleteTaskDetailsCommand(Guid Id) : CreateCommand;
-    public sealed class DeleteTaskDetailsCommandHandler : CreateCommandHandler<DeleteTaskDetailsCommand>
+    public sealed record DeleteTaskDetailsCommand(Guid Id) : CommandBase<string>;
+    public sealed class DeleteTaskDetailsCommandHandler : CommandHandler<DeleteTaskDetailsCommand, string>
     {
         private readonly IRepository<TaskDetails> _repository;
         public DeleteTaskDetailsCommandHandler(IRepository<TaskDetails> repository, IUnitOfWork unitOfWork) : base(unitOfWork)
@@ -14,14 +14,13 @@ namespace CleanArchitecture.Application.Task_Details.Commands
             _repository = repository;
         }
 
-        protected async override Task<string> HandleAsync(DeleteTaskDetailsCommand request)
+        protected async override Task<string> HandleAsync(DeleteTaskDetailsCommand request, CancellationToken cancellationToken)
         {
             var taskStatus = await _repository.GetByIdAsync(request.Id);
             taskStatus = Guard.Against.NotFound(taskStatus);
             _repository.SoftDelete(taskStatus);
             await UnitOfWork.CommitAsync();
             return "Record Deleted Successfully !!";
-
         }
     }
 }

@@ -40,7 +40,7 @@ namespace CleanArchitecture.Api.Controllers
         public async Task<IActionResult> Post([FromBody] AuthorCreateDto author)
         {
             var id = await _mediator.Send(new CreateAuthorCommand(author.Name, author.Email, author.Description));
-            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelope(id));
+            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelopeGuid(id));
         }
 
         [HttpDelete("{id}")]

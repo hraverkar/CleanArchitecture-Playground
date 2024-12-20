@@ -23,7 +23,7 @@ namespace CleanArchitecture.Api.Controllers
         public async Task<IActionResult> Post([FromBody] TaskStatusRequestDto taskStatusRequestDto)
         {
             var id = await _mediator.Send(new CreateTaskStatusCommand(taskStatusRequestDto));
-            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelope(id));
+            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelopeGuid(id));
         }
 
         [HttpGet("{id}")]

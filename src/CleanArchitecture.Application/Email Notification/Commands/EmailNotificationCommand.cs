@@ -6,9 +6,9 @@ using CleanArchitecture.Core.Email_Notification.Entities;
 
 namespace CleanArchitecture.Application.Email_Notification.Commands
 {
-    public sealed record EmailNotificationCommand(EmailNotificationRequestDto EmailNotificationRequestDto) : CreateCommand;
+    public sealed record EmailNotificationCommand(EmailNotificationRequestDto EmailNotificationRequestDto) : CommandBase<string>;
 
-    public sealed class EmailNotificationCommandHandler : CreateCommandHandler<EmailNotificationCommand>
+    public sealed class EmailNotificationCommandHandler : CommandHandler<EmailNotificationCommand, string>
     {
         private readonly IRepository<EmailNotification> _repository;
         private readonly IEmailNotificationService _emailNotificationService;
@@ -19,8 +19,7 @@ namespace CleanArchitecture.Application.Email_Notification.Commands
             _repository = repository;
             _emailNotificationService = emailNotificationService;
         }
-
-        protected async override Task<string> HandleAsync(EmailNotificationCommand request)
+        protected override async Task<string> HandleAsync(EmailNotificationCommand request, CancellationToken cancellationToken)
         {
             try
             {

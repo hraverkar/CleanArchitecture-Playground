@@ -17,7 +17,7 @@ namespace CleanArchitecture.Application.Authors.Commands
             _repository = repository;
         }
 
-        protected override async Task<string> HandleAsync(RegisterUserCreateCommand request)
+        protected override async Task<Guid> HandleAsync(RegisterUserCreateCommand request)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.registerUserRequestDto.Password);
             var userInformation = _repository.GetAll(false).Where(r => r.Email == request.registerUserRequestDto.Email &&
@@ -28,10 +28,10 @@ namespace CleanArchitecture.Application.Authors.Commands
                 passwordHash, request.registerUserRequestDto.UserName);
                 _repository.Insert(userCreated);
                 await UnitOfWork.CommitAsync();
-                return userCreated.Id.ToString();
+                return userCreated.Id;
             }
             userInformation = Guard.Against.Found(userInformation, $"User Already found: {request.registerUserRequestDto.Email}");
-            return Guid.Empty.ToString();
+            return Guid.Empty;
         }
     }
 }

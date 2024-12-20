@@ -23,13 +23,13 @@ namespace CleanArchitecture.Application.Task_Status.Commands
         {
             _taskStatusRepository = taskStatusRepository;
         }
-        protected override async Task<string> HandleAsync(CreateTaskStatusCommand request)
+        protected override async Task<Guid> HandleAsync(CreateTaskStatusCommand request)
         {
             var createTask = TaskStatus.Create(request.TaskStatusRequestDto.StatusName, request.TaskStatusRequestDto.CreatedBy,
                 request.TaskStatusRequestDto.CreatedAt);
             _taskStatusRepository.Insert(createTask);
             await UnitOfWork.CommitAsync();
-            return createTask.Id.ToString();
+            return createTask.Id;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Application.Abstractions.Commands;
 using CleanArchitecture.Application.Abstractions.Repositories;
-using CleanArchitecture.Application.Abstractions.Services;
 using CleanArchitecture.Core.CarCompanies.Entities;
 
 namespace CleanArchitecture.Application.CarCompnies.Commands
@@ -14,17 +13,17 @@ namespace CleanArchitecture.Application.CarCompnies.Commands
             _repository = repository;
         }
 
-        protected async override Task<string> HandleAsync(CreateCarCompanyCommand request)
+        protected async override Task<Guid> HandleAsync(CreateCarCompanyCommand request)
         {
-            var carAvailable = _repository.GetAll(false).Any(t => t.CarManufactureName.ToLower() == request.CarManufactureCompany.ToLower());
+            var carAvailable = _repository.GetAll(false).Any(t => t.CarManufactureName.Equals(request.CarManufactureCompany, StringComparison.CurrentCultureIgnoreCase));
             if (!carAvailable)
             {
                 var carCompanyManufacture = CarCompany.Create(request.CarManufactureCompany);
                 _repository.Insert(carCompanyManufacture);
                 await UnitOfWork.CommitAsync();
-                return carCompanyManufacture.Id.ToString();
+                return carCompanyManufacture.Id;
             }
-            return Guid.Empty.ToString();
+            return Guid.Empty;
         }
     }
 }
