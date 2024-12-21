@@ -1,14 +1,14 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
+using CleanArchitecture.Api.Infrastructure.Attributes;
 using CleanArchitecture.Application.Email_Notification.Commands;
 using CleanArchitecture.Application.Email_Notification.Models;
 using CleanArchitecture.Application.Task_Status.Model;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
 {
-    [Authorize]
+    [AllowAnonymousMiddleware]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
