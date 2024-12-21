@@ -1,9 +1,7 @@
 ﻿using CleanArchitecture.Application.Abstractions.Commands;
 using CleanArchitecture.Application.Abstractions.Repositories;
-using CleanArchitecture.Application.Authors.Models;
 using CleanArchitecture.Application.RegisterUsers.Models;
 using CleanArchitecture.Core.Abstractions.Guards;
-using CleanArchitecture.Core.Locations.Entities;
 using CleanArchitecture.Core.Weather.Entities;
 
 namespace CleanArchitecture.Application.Authors.Commands
@@ -28,10 +26,10 @@ namespace CleanArchitecture.Application.Authors.Commands
                 passwordHash, request.registerUserRequestDto.UserName);
                 _repository.Insert(userCreated);
                 await UnitOfWork.CommitAsync();
-                return userCreated.Id;
+                return await Task.FromResult(userCreated.Id);
             }
             userInformation = Guard.Against.Found(userInformation, $"User Already found: {request.registerUserRequestDto.Email}");
-            return Guid.Empty;
+            return await Task.FromResult(Guid.Empty);
         }
     }
 }

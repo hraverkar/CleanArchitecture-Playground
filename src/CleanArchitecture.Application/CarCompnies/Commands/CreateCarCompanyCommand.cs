@@ -21,9 +21,9 @@ namespace CleanArchitecture.Application.CarCompnies.Commands
                 var carCompanyManufacture = CarCompany.Create(request.CarManufactureCompany);
                 _repository.Insert(carCompanyManufacture);
                 await UnitOfWork.CommitAsync();
-                return carCompanyManufacture.Id;
+                return await Task.FromResult(carCompanyManufacture.Id);
             }
-            return Guid.Empty;
+            return await Task.FromResult(Guid.Empty);           
         }
     }
 }

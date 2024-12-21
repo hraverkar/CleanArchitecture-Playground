@@ -29,7 +29,7 @@ if (app.Environment.IsDevelopment())
 app.MapPost("/sendEmailNotification", async (EmailNotificationRequestDto emailNotification, IEmailNotificationService emailNotificationService) =>
 {
     var response = await emailNotificationService.EmailNotificationAlertAsync(emailNotification);
-    return Results.Created("Notification ", response);
+    return Results.Created("Notification", response);
 }).WithName("SendNotification")
 .WithOpenApi();
 

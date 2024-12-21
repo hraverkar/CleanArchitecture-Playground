@@ -23,7 +23,7 @@ namespace CleanArchitecture.Application.Task_Status.Queries
             taskStatus = Guard.Against.NotFound(taskStatus);
             _repository.SoftDelete(taskStatus);
             await UnitOfWork.CommitAsync();
-            return "Record Deleted Successfully !!";
+            return await Task.FromResult("Record Deleted Successfully !!");
         }
     }
 }

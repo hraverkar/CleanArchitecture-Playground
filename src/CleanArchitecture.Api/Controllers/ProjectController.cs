@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Api.Infrastructure.ActionResults;
+using CleanArchitecture.Api.Infrastructure.Attributes;
 using CleanArchitecture.Application.Projects.Commands;
 using CleanArchitecture.Application.Projects.Models;
 using CleanArchitecture.Application.Projects.Queries;
@@ -15,6 +16,7 @@ namespace CleanArchitecture.Api.Controllers
     public sealed class ProjectController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
+        
         [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
@@ -27,6 +29,7 @@ namespace CleanArchitecture.Api.Controllers
             return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelopeGuid(id));
         }
 
+        [AllowAnonymousMiddlewareAttribute]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProjectResponseDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid Id)
@@ -35,6 +38,7 @@ namespace CleanArchitecture.Api.Controllers
             return Ok(projectDetails);
         }
 
+        [AllowAnonymousMiddlewareAttribute]
         [HttpGet()]
         [ProducesResponseType(typeof(ProjectResponseListDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()

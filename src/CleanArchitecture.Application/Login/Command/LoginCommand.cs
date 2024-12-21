@@ -48,7 +48,7 @@ namespace CleanArchitecture.Application.Login.Command
                         expires: expiryDate,
                         signingCredentials: credentials);
             var tokenDto = new TokenDto { AccessToken = new JwtSecurityTokenHandler().WriteToken(token), ExpireTime = expiryDate, Email = userRecord.Email, UserName = userRecord.UserName };
-            return tokenDto;
+            return await Task.FromResult(tokenDto);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace CleanArchitecture.Application.Task_Details.Commands
                 request.TaskDetailsRequestDto.TaskCreatedBy, false, request.TaskDetailsRequestDto.ProjectId);
             _taskDetailsRepository.Insert(createTask);
             await UnitOfWork.CommitAsync();
-            return createTask.Id;
+            return await Task.FromResult(createTask.Id);
         }
     }
 }

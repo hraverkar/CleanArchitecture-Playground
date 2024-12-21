@@ -15,7 +15,7 @@ namespace MyNotification.Services
             this._configuration = configuration;
         }
 
-        public async Task<bool> EmailNotificationAlertAsync(EmailNotificationRequestDto emailNotificationRequestDto)
+        public async Task<string> EmailNotificationAlertAsync(EmailNotificationRequestDto emailNotificationRequestDto)
         {
             var mailSettings = _configuration.GetSection("MailSettings").Get<MailSettings>();
             try
@@ -41,11 +41,11 @@ namespace MyNotification.Services
                 await smtpClient.AuthenticateAsync(mailSettings.UserName, mailSettings.Password);
                 await smtpClient.SendAsync(mail);
                 await smtpClient.DisconnectAsync(true);
-                return true;
+                return await Task.FromResult("Message sent to users!!");
             }
             catch (Exception ex)
             {
-                return false;
+                return await Task.FromResult("Message sent failed !! please check the configuration.");
             }
         }
     }

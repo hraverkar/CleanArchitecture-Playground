@@ -18,7 +18,7 @@ namespace CleanArchitecture.Application.Authors.Commands
             var authorCreated = Author.Create(request.Name, request.Email, request.Description);
             _repository.Insert(authorCreated);
             await UnitOfWork.CommitAsync();
-            return authorCreated.Id;
+            return await Task.FromResult(authorCreated.Id);
         }
     }
 }

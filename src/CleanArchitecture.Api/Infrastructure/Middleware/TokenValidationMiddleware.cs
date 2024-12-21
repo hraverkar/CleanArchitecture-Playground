@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Application.Logout.Services;
+﻿using CleanArchitecture.Api.Infrastructure.Attributes;
+using CleanArchitecture.Application.Logout.Services;
 using CleanArchitecture.Infrastructure.Services;
 
 namespace CleanArchitecture.Api.Infrastructure.Middleware
@@ -24,6 +25,17 @@ namespace CleanArchitecture.Api.Infrastructure.Middleware
             {
                 await _next(context);
                 return;
+            }
+
+            var endPoint = context.GetEndpoint();
+            if (endPoint != null)
+            {
+                var hasAllowAnonymous = endPoint.Metadata.GetMetadata<AllowAnonymousMiddlewareAttribute>() != null;
+                if (hasAllowAnonymous)
+                {
+                    await _next(context);
+                    return;
+                }
             }
 
             if (context.Request.Headers.ContainsKey("Authorization"))

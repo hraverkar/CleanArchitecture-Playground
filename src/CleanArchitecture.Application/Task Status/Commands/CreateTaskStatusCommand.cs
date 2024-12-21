@@ -29,7 +29,7 @@ namespace CleanArchitecture.Application.Task_Status.Commands
                 request.TaskStatusRequestDto.CreatedAt);
             _taskStatusRepository.Insert(createTask);
             await UnitOfWork.CommitAsync();
-            return createTask.Id;
+            return await Task.FromResult(createTask.Id);
         }
     }
 }

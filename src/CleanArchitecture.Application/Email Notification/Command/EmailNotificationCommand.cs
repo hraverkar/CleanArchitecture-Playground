@@ -35,7 +35,7 @@ namespace CleanArchitecture.Application.Email_Notification.Commands
                     DateTime.Now);
                 _repository.Insert(emailNotification);
                 await UnitOfWork.CommitAsync();
-                return "Email Sent !!";
+                return await Task.FromResult("Email Sent !!");
             }
             catch (Exception ex)
             {

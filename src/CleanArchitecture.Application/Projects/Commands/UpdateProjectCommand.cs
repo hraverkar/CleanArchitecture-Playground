@@ -25,7 +25,7 @@ namespace CleanArchitecture.Application.Projects.Commands
                 request.UpdateProjectRequestDto.UpdatedBy);
             _repository.Update(projectExists);
             await UnitOfWork.CommitAsync();
-            return "Project Updated !!";
+            return await Task.FromResult("Project Updated !!");
         }
     }
 }

@@ -21,7 +21,7 @@ namespace CleanArchitecture.Application.Task_Details.Commands
                 request.UpdateTaskDetailsRequestDto.TaskStatusId, request.UpdateTaskDetailsRequestDto.TaskCreatedBy);
             _repository.Update(taskDetailsExists);
             await UnitOfWork.CommitAsync();
-            return "Task Updated !!";
+            return await Task.FromResult("Task Updated !!");
         }
     }
 }

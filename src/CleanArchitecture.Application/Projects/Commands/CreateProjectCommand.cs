@@ -31,7 +31,7 @@ namespace CleanArchitecture.Application.Projects.Commands
                     );
                 _repository.Insert(projectCreate);
                 await UnitOfWork.CommitAsync();
-                return projectCreate.Id;
+                return await Task.FromResult(projectCreate.Id);
             }
             else
             {

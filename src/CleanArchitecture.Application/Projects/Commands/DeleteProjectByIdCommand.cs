@@ -22,7 +22,7 @@ namespace CleanArchitecture.Application.Projects.Commands
             projectExists = Guard.Against.NotFound(projectExists);
             _repository.SoftDelete(projectExists);
             await UnitOfWork.CommitAsync();
-            return "Record Deleted Successfully !!";
+            return await Task.FromResult("Record Deleted Successfully !!");
         }
     }
 }

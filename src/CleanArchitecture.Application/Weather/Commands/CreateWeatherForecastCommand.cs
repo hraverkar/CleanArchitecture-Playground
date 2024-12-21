@@ -33,7 +33,7 @@ namespace CleanArchitecture.Application.Weather.Commands
                                                  location.Id);
             _repository.Insert(created);
             await UnitOfWork.CommitAsync();
-            return created.Id;
+            return await Task.FromResult(created.Id);
         }
     }
 }
