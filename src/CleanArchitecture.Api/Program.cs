@@ -1,34 +1,67 @@
 using Autofac;
 using CleanArchitecture.Api.Infrastructure.Filters;
+using CleanArchitecture.Api.Infrastructure.Middleware;
 using CleanArchitecture.Application.AutofacModules;
+using CleanArchitecture.Application.Logout.Services;
 using CleanArchitecture.Infrastructure.AutofacModules;
+using CleanArchitecture.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.RegisterDefaults();
 var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
+var jwtAudience = builder.Configuration.GetSection("Jwt:Audience").Get<string>();
 var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
 var KeyVaultURL = builder.Configuration.GetSection("KeyVault:VaultUri").Get<string>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
+builder.Services.AddAuthentication(options =>
 {
-    option.TokenValidationParameters = new TokenValidationParameters
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtIssuer,
-        ValidAudience = jwtIssuer,
+        ValidAudience = jwtAudience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
+    options.TokenValidationParameters.ClockSkew = TimeSpan.Zero;
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine("Token validation failed: " + context.Exception.Message);
+            return Task.CompletedTask;
+        },
+        OnTokenValidated = context =>
+        {
+            var tokenBlackListService = context.HttpContext.RequestServices.GetRequiredService<ITokenBlackListService>();
+            var token = context.SecurityToken.ToString();
+
+            if (token != null && tokenBlackListService.IsTokenRevoked(token))
+            {
+                context.Fail("Token has been revoked");
+            }            
+            return Task.CompletedTask;
+        }
+    };
 });
+
+builder.Services.AddAuthorization();
+
+
 // Add services to the container.
 builder.Services.AddControllers(options =>
 {
@@ -92,6 +125,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(container =>
     container.RegisterModule(new InfrastructureModule(builder.Configuration));
 });
 
+builder.Services.AddMemoryCache();
 var app = builder.Build();
 
 app.UseSwagger();
@@ -121,7 +155,8 @@ app.UseCors(options =>
            .AllowAnyOrigin()
            .WithExposedHeaders("Content-Disposition");
 });
-
+app.UseMiddleware<TokenValidationMiddleware>();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHealthChecks("healthz");

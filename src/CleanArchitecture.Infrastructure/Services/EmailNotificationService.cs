@@ -3,9 +3,7 @@ using CleanArchitecture.Application.Email_Notification.Models;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using MimeKit;
-using static CSharpFunctionalExtensions.Result;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace CleanArchitecture.Infrastructure.Services

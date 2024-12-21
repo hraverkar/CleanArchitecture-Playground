@@ -1,12 +1,14 @@
-using MediatR;
-using CleanArchitecture.Application.Weather.Commands;
-using CleanArchitecture.Application.Weather.Queries;
 using CleanArchitecture.Api.Infrastructure.ActionResults;
+using CleanArchitecture.Application.Weather.Commands;
 using CleanArchitecture.Application.Weather.Models;
+using CleanArchitecture.Application.Weather.Queries;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using CleanArchitecture.Application.Abstractions.Repositories;
 using CleanArchitecture.Application.Email_Notification.Models;
+using CleanArchitecture.Application.Logout.Services;
 using CleanArchitecture.Infrastructure.Repositories;
 using CleanArchitecture.Infrastructure.Services;
 using CleanArchitecture.Infrastructure.Settings;
@@ -34,6 +35,7 @@ namespace CleanArchitecture.Infrastructure.AutofacModules
                 .InstancePerRequest()
                 .InstancePerLifetimeScope()
                 .WithParameter(new NamedParameter("options", _options));
+            builder.RegisterType<TokenBlackListService>().As<ITokenBlackListService>();
 
             builder.RegisterType<UnitOfWork>()
                 .AsImplementedInterfaces()
@@ -48,7 +50,7 @@ namespace CleanArchitecture.Infrastructure.AutofacModules
                 .SingleInstance();
             builder.RegisterType<EmailNotificationService>()
                 .AsImplementedInterfaces()
-                .SingleInstance();            
+                .SingleInstance();
         }
 
         private static DbContextOptions<WeatherContext> CreateDbOptions(IConfiguration configuration)

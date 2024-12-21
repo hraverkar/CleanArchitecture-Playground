@@ -36,13 +36,14 @@ namespace CleanArchitecture.Application.Login.Command
             var token = new JwtSecurityToken(
                         issuer: _configuration["Jwt:Issuer"],
                         audience: _configuration["Jwt:Audience"],
-                      claims: new List<Claim>
-                        {
-                            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(), ClaimValueTypes.DateTime),
-                            new Claim(JwtRegisteredClaimNames.Sub, userRecord.UserName),
-                            new Claim(JwtRegisteredClaimNames.Email, userRecord.Email),
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                        },
+                          claims: new List<Claim>
+                            {
+                                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()),
+                                new Claim(JwtRegisteredClaimNames.Sub, userRecord.UserName),
+                                new Claim(JwtRegisteredClaimNames.Email, userRecord.Email),
+                                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                                new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(expiryDate).ToUnixTimeSeconds().ToString())
+                            },
                         notBefore: DateTime.UtcNow,
                         expires: expiryDate,
                         signingCredentials: credentials);

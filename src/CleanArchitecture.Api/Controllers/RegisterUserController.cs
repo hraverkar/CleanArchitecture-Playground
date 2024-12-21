@@ -2,10 +2,12 @@
 using CleanArchitecture.Application.Authors.Commands;
 using CleanArchitecture.Application.RegisterUsers.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]

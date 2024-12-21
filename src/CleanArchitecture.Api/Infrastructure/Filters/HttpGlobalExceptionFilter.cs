@@ -40,6 +40,10 @@ namespace CleanArchitecture.Api.Infrastructure.Filters
             {
                 envelope = Envelope.Create(context.Exception.Message, HttpStatusCode.NotFound);
             }
+            else if(context.Exception.GetType() == typeof(BadRequestException))
+            {
+                envelope = Envelope.Create(context.Exception.Message, HttpStatusCode.BadRequest);
+            }
             else
             {
                 var message = _env.IsDevelopment() ? context.Exception.ToString() : "Sorry an error occured, please try again.";

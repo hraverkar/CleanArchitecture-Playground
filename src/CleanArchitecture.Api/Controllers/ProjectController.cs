@@ -2,26 +2,20 @@
 using CleanArchitecture.Application.Projects.Commands;
 using CleanArchitecture.Application.Projects.Models;
 using CleanArchitecture.Application.Projects.Queries;
-using CleanArchitecture.Application.Task_Details.Models;
-using CleanArchitecture.Application.Task_Details.Queries;
-using CleanArchitecture.Application.Task_Status.Commands;
-using CleanArchitecture.Application.Task_Status.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
 {
-    [Authorize]
+
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
     public sealed class ProjectController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
-
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
@@ -49,6 +43,7 @@ namespace CleanArchitecture.Api.Controllers
             return Ok(projectDetails);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ProjectResponseDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteProjectById(Guid Id)
@@ -57,6 +52,7 @@ namespace CleanArchitecture.Api.Controllers
             return Ok(projectDetails);
         }
 
+        [Authorize]
         [HttpPatch()]
         [ProducesResponseType(typeof(ProjectResponseDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateProjectById(UpdateProjectRequestDto updateProjectRequestDto)

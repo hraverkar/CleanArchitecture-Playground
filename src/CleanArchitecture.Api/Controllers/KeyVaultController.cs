@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Application.KeyVault;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
