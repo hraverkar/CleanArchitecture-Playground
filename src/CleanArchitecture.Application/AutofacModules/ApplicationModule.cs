@@ -1,9 +1,7 @@
-﻿using MediatR;
-using Autofac;
+﻿using Autofac;
 using AutoMapper;
+using MediatR;
 using System.Reflection;
-using CleanArchitecture.Application.Email_Notification.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace CleanArchitecture.Application.AutofacModules
 {

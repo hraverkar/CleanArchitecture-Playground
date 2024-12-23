@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using CleanArchitecture.Application.AutofacModules;
+using CleanArchitecture.BuildingBlocks.Services.App;
 using CleanArchitecture.Hosting;
 using CleanArchitecture.Infrastructure.AutofacModules;
 using CleanArchitecture.Migrations;
@@ -20,6 +21,8 @@ public class Program
                         {
                             container.RegisterModule(new InfrastructureModule(DbContextOptionsFactory.Create(hostContext.Configuration), hostContext.Configuration));
                             container.RegisterModule(new ApplicationModule());
+                            container.RegisterModule(new ServicesModule());
+
                         });
 
         await hostBuilder.BuildAndRunAsync();

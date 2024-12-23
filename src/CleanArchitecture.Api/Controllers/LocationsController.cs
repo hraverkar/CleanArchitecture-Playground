@@ -1,3 +1,4 @@
+using CleanArchitecture.Api.Infrastructure.Attributes;
 using CleanArchitecture.Application.Locations.Models;
 using CleanArchitecture.Application.Locations.Queries;
 using MediatR;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
 {
+    [AllowAnonymousMiddleware]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]

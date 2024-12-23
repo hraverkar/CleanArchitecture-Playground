@@ -2,6 +2,8 @@
 using CleanArchitecture.Application.Abstractions.Repositories;
 using CleanArchitecture.Application.Email_Notification.Models;
 using CleanArchitecture.Application.Logout.Services;
+using CleanArchitecture.BuildingBlocks.EventBus.Interfaces;
+using CleanArchitecture.BuildingBlocks.EventBus;
 using CleanArchitecture.Infrastructure.Repositories;
 using CleanArchitecture.Infrastructure.Services;
 using CleanArchitecture.Infrastructure.Settings;
@@ -35,6 +37,7 @@ namespace CleanArchitecture.Infrastructure.AutofacModules
                 .InstancePerRequest()
                 .InstancePerLifetimeScope()
                 .WithParameter(new NamedParameter("options", _options));
+            builder.RegisterType<ServiceBus>().As<IEventBus>().SingleInstance();
             builder.RegisterType<TokenBlackListService>().As<ITokenBlackListService>();
 
             builder.RegisterType<UnitOfWork>()

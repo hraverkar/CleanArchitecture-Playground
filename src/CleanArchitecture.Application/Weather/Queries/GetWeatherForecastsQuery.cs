@@ -25,10 +25,10 @@ namespace CleanArchitecture.Application.Weather.Queries
 
             if (request.LocationId.HasValue)
             {
-                forecastsQuery = forecastsQuery.Where(e => e.LocationId == request.LocationId.Value);
+                forecastsQuery = forecastsQuery.Where(e => e.LocationId == request.LocationId.Value && !e.IsDeleted);
             }
 
-            var forecasts = await forecastsQuery.OrderBy(e => e.Date)
+            var forecasts = await forecastsQuery.OrderBy(e => e.Date).Where(e => !e.IsDeleted)
                                                 .ToListAsync();
 
             return Mapper.Map<List<WeatherForecastDto>>(forecasts);

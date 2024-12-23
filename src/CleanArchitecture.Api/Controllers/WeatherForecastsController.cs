@@ -1,4 +1,5 @@
 using CleanArchitecture.Api.Infrastructure.ActionResults;
+using CleanArchitecture.Api.Infrastructure.Attributes;
 using CleanArchitecture.Application.Weather.Commands;
 using CleanArchitecture.Application.Weather.Models;
 using CleanArchitecture.Application.Weather.Queries;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Api.Controllers
 {
-    [Authorize]
+    [AllowAnonymousMiddleware]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -20,7 +21,7 @@ namespace CleanArchitecture.Api.Controllers
         {
             _mediator = mediator;
         }
-
+       
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(List<WeatherForecastDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]

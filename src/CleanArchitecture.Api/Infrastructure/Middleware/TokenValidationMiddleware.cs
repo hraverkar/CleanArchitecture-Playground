@@ -20,12 +20,12 @@ namespace CleanArchitecture.Api.Infrastructure.Middleware
             _logger.LogInformation("Processing request path: {Path}", context.Request.Path);
             _logger.LogInformation("Authorization header present: {AuthorizationPresent}", context.Request.Headers.ContainsKey("Authorization"));
 
-            var excludedPaths = new[] { "/api/login", "/api/registeruser" };
-            if (excludedPaths.Any(path => context.Request.Path.StartsWithSegments(path, StringComparison.OrdinalIgnoreCase)))
-            {
-                await _next(context);
-                return;
-            }
+            //var excludedPaths = new[] { "/api/login", "/api/registeruser" };
+            //if (excludedPaths.Any(path => context.Request.Path.StartsWithSegments(path, StringComparison.OrdinalIgnoreCase)))
+            //{
+            //    await _next(context);
+            //    return;
+            //}
 
             var endPoint = context.GetEndpoint();
             if (endPoint != null)

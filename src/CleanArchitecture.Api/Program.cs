@@ -3,14 +3,13 @@ using CleanArchitecture.Api.Infrastructure.Filters;
 using CleanArchitecture.Api.Infrastructure.Middleware;
 using CleanArchitecture.Application.AutofacModules;
 using CleanArchitecture.Application.Logout.Services;
+using CleanArchitecture.BuildingBlocks.Services.App;
 using CleanArchitecture.Infrastructure.AutofacModules;
-using CleanArchitecture.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -123,6 +122,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(container =>
 {
     container.RegisterModule(new ApplicationModule());
     container.RegisterModule(new InfrastructureModule(builder.Configuration));
+    container.RegisterModule(new ServicesModule());
 });
 
 builder.Services.AddMemoryCache();

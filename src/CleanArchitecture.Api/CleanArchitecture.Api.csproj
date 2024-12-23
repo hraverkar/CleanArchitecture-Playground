@@ -41,6 +41,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\CleanArchitecture.Application\CleanArchitecture.Application.csproj" />
+		<ProjectReference Include="..\CleanArchitecture.BuildingBlocks.Service\CleanArchitecture.BuildingBlocks.Services.App.csproj" />
 		<ProjectReference Include="..\CleanArchitecture.Hosting\CleanArchitecture.Hosting.csproj" />
 		<ProjectReference Include="..\CleanArchitecture.Infrastructure\CleanArchitecture.Infrastructure.csproj" />
 	</ItemGroup>

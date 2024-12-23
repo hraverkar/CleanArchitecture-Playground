@@ -8,8 +8,11 @@ namespace CleanArchitecture.Infrastructure.Settings
         {
             var databaseSettings = new DatabaseSettings();
             configuration.GetSection("Database").Bind(databaseSettings);
+            configuration.GetSection("ServiceBus").Bind(databaseSettings);
             return databaseSettings;
         }
+
+        public string? ServiceBusConnectionString { get; set; }
 
 #if (UseSqlServer)
         public string? SqlConnectionString { get; set; }

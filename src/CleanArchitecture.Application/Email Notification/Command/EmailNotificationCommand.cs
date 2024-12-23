@@ -2,7 +2,9 @@
 using CleanArchitecture.Application.Abstractions.Repositories;
 using CleanArchitecture.Application.Abstractions.Services;
 using CleanArchitecture.Application.Email_Notification.Models;
+using CleanArchitecture.BuildingBlocks.EventBus.Interfaces;
 using CleanArchitecture.Core.Email_Notification.Entities;
+using CleanArchitecture.Core.IntegrationEvents;
 
 namespace CleanArchitecture.Application.Email_Notification.Commands
 {
@@ -12,12 +14,14 @@ namespace CleanArchitecture.Application.Email_Notification.Commands
     {
         private readonly IRepository<EmailNotification> _repository;
         private readonly IEmailNotificationService _emailNotificationService;
+        private readonly IEventBus _eventBus;
 
         public EmailNotificationCommandHandler(IRepository<EmailNotification> repository, IEmailNotificationService emailNotificationService,
-            IUnitOfWork unitOfWork) : base(unitOfWork)
+            IUnitOfWork unitOfWork, IEventBus eventBus) : base(unitOfWork)
         {
             _repository = repository;
             _emailNotificationService = emailNotificationService;
+            _eventBus = eventBus;
         }
         protected override async Task<string> HandleAsync(EmailNotificationCommand request, CancellationToken cancellationToken)
         {
@@ -34,6 +38,7 @@ namespace CleanArchitecture.Application.Email_Notification.Commands
                     isEmailSent,
                     DateTime.Now);
                 _repository.Insert(emailNotification);
+                await _eventBus.PublishAsync(new TaxAutomationEvent(emailNotification.Id, emailNotification.ToEmailUserName));
                 await UnitOfWork.CommitAsync();
                 return await Task.FromResult("Email Sent !!");
             }
