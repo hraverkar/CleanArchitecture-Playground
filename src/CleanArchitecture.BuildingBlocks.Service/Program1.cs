@@ -10,7 +10,6 @@ using CleanArchitecture.Core.IntegrationEvents;
 using CleanArchitecture.Infrastructure.AutofacModules;
 using CleanArchitecture.Infrastructure.Settings;
 using MediatR;
-using Microsoft.Azure.Amqp;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,7 +33,8 @@ public class Program1
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .ConfigureHostConfiguration(configHost =>
             {
-                configHost.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                var p = configHost.SetBasePath(Directory.GetCurrentDirectory());
+                p.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables().AddCommandLine(args);
             }).ConfigureServices((hostContext, services) =>
             {

@@ -1,12 +1,6 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using AutoMapper;
 using CleanArchitecture.BuildingBlocks.Services.Core.IntegrationEventHandlers;
-using CleanArchitecture.Core.IntegrationEvents;
 using MediatR;
-using MediatR.NotificationPublishers;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 
 namespace CleanArchitecture.BuildingBlocks.Services.App
@@ -23,11 +17,6 @@ namespace CleanArchitecture.BuildingBlocks.Services.App
                 RegisterAssemblyTypes(typeof(TaxAutomationEventHandler).Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
-            //builder.Register<ServiceFactory>(ctx =>
-            //{
-            //    var c = ctx.Resolve<IComponentContext>();
-            //    return t => c.Resolve(t);
-            //});
         }
     }
 }
