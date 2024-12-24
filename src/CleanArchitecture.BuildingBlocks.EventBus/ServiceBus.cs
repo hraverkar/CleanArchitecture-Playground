@@ -10,7 +10,7 @@ namespace CleanArchitecture.BuildingBlocks.EventBus
     public class ServiceBus : EventProcessor, IEventBus
     {
         private readonly ILogger<ServiceBus> _logger;
-        private readonly string ConnectionString = "Endpoint=sb://hr-function.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=TrQyCcWOvglACzleFOuRGkEjZcUHgNcT/+ASbGRP2Ws=";
+        private readonly string ConnectionString = "";
         public ServiceBus(IServiceProvider serviceProvider, ILogger<ServiceBus> logger) : base(serviceProvider)
         {
             _logger = logger;

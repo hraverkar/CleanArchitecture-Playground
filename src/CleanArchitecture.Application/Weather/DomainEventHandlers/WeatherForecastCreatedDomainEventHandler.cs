@@ -20,7 +20,7 @@ namespace CleanArchitecture.Application.Weather.DomainEventHandlers
             if (IsExtremeTemperature(@event.Temperature))
             {
                 Logger.LogWarning("{summary} temperature alert - {temperature}C", @event.Summary, @event.Temperature);
-               // await _notificationsService.WeatherAlertAsync(@event.Summary, @event.Temperature, @event.Date);
+              // await _notificationsService.WeatherAlertAsync(@event.Summary, @event.Temperature, @event.Date);
             }
         }
 

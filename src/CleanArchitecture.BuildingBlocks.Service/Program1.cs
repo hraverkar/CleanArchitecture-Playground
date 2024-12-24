@@ -46,12 +46,7 @@ public class Program1
 
                 RegisterEventListeners(services, hostContext.Configuration);
 
-                services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(TaxAutomationEventHandler).GetTypeInfo().Assembly));
-                //services.AddMediatR(p =>
-                //{
-
-                //    p.AsScoped();
-                //}, typeof(TaxAutomationEvent).GetTypeInfo().Assembly);
+                services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(SampleAutomationEventHandler).GetTypeInfo().Assembly));
             })
             .ConfigureContainer<ContainerBuilder>((hostContext, builder) =>
             {
@@ -66,14 +61,14 @@ public class Program1
     {
         var eventTypes = GetEventTypes(configuration);
 
-        var allEventTypes = Assembly.GetAssembly(typeof(TaxAutomationEvent))
+        var allEventTypes = Assembly.GetAssembly(typeof(SampleAutomationEvent))
             .GetTypes()
             .Where(t => t.IsAssignableTo(typeof(IntegrationEvent)) && !t.IsAbstract)
             .ToList();
 
         foreach (var type in eventTypes)
         {
-            var eventType = allEventTypes.FirstOrDefault(t => string.Equals(t.Name, type, StringComparison.CurrentCultureIgnoreCase));
+            var eventType = allEventTypes.Where(t => t.Name == type).FirstOrDefault();
             if (eventType == null)
             {
                 throw new InvalidOperationException($"{type} is not a valid event type");
@@ -93,7 +88,8 @@ public class Program1
     private static List<string> GetEventTypes(IConfiguration configuration)
     {
         var t = new List<string>
-        {    "TaxAutomationEvent"
+        {    "SampleAutomationEvent","SampleAutomation1Event"
+
         };
         return t;
         //return configuration.GetSection("Events").Get<List<string>>() ?? new List<string>();

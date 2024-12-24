@@ -38,7 +38,7 @@ namespace CleanArchitecture.Application.Email_Notification.Commands
                     isEmailSent,
                     DateTime.Now);
                 _repository.Insert(emailNotification);
-                await _eventBus.PublishAsync(new TaxAutomationEvent(emailNotification.Id, emailNotification.ToEmailUserName));
+                await _eventBus.PublishAsync(new SampleAutomationEvent(emailNotification.Id, emailNotification.ToEmailUserName));
                 await UnitOfWork.CommitAsync();
                 return await Task.FromResult("Email Sent !!");
             }

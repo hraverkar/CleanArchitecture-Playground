@@ -14,7 +14,7 @@ namespace CleanArchitecture.BuildingBlocks.Services.App
                 .InstancePerLifetimeScope();
 
             builder.
-                RegisterAssemblyTypes(typeof(TaxAutomationEventHandler).Assembly)
+                RegisterAssemblyTypes(typeof(SampleAutomationEventHandler).Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
         }
